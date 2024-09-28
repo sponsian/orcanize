@@ -2,81 +2,46 @@ table:
   name: activities
   schema: public
 object_relationships:
-  - name: actor_profile
-    using:
-      foreign_key_constraint_on: actor_profile_id
-  - name: actor_profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          actor_profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
   - name: big_question
     using:
       foreign_key_constraint_on: big_question_id
+  - name: cast
+    using:
+      foreign_key_constraint_on: cast_id
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
   - name: contribution
     using:
       foreign_key_constraint_on: contribution_id
-  - name: enriched_cast
-    using:
-      manual_configuration:
-        column_mapping:
-          cast_id: id
-        insertion_order: null
-        remote_table:
-          name: enriched_casts
-          schema: public
   - name: epoch
     using:
       foreign_key_constraint_on: epoch_id
   - name: organization
     using:
       foreign_key_constraint_on: organization_id
-  - name: target_profile
+  - name: profile
+    using:
+      foreign_key_constraint_on: actor_profile_id
+  - name: profileByTargetProfileId
     using:
       foreign_key_constraint_on: target_profile_id
-  - name: target_profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          target_profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
   - name: user
     using:
       foreign_key_constraint_on: user_id
 array_relationships:
-  - name: gives
+  - name: colinks_gives
     using:
       foreign_key_constraint_on:
         column: activity_id
         table:
           name: colinks_gives
           schema: public
-  - name: private_stream_visibility
-    using:
-      manual_configuration:
-        column_mapping:
-          actor_profile_id: view_profile_id
-        insertion_order: null
-        remote_table:
-          name: private_stream_visibility
-          schema: public
   - name: reactions
     using:
-      manual_configuration:
-        column_mapping:
-          id: activity_id
-        insertion_order: null
-        remote_table:
+      foreign_key_constraint_on:
+        column: activity_id
+        table:
           name: reactions
           schema: public
   - name: replies
@@ -86,50 +51,10 @@ array_relationships:
         table:
           name: replies
           schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - action
-        - actor_profile_id
-        - big_question_id
-        - cast_id
-        - circle_id
-        - contribution_id
-        - created_at
-        - epoch_id
-        - id
-        - organization_id
-        - private_stream
-        - reaction_count
-        - reply_count
-        - target_profile_id
-        - updated_at
-      filter:
-        _or:
-          - actor_profile_id:
-              _eq: X-Hasura-User-Id
-          - cast_id:
-              _is_null: false
-          - organization:
-              members:
-                profile_id:
-                  _eq: X-Hasura-User-Id
-          - _and:
-              - contribution:
-                  deleted_at:
-                    _is_null: true
-                private_stream:
-                  _eq: true
-              - private_stream_visibility:
-                  profile_id:
-                    _eq: X-Hasura-User-Id
-          - _and:
-              - big_question_id:
-                  _is_null: false
-                contribution:
-                  deleted_at:
-                    _is_null: true
-                private_stream:
-                  _eq: false
-      allow_aggregations: true
+  - name: replies_reactions
+    using:
+      foreign_key_constraint_on:
+        column: activity_id
+        table:
+          name: replies_reactions
+          schema: public

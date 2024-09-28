@@ -2,47 +2,9 @@ table:
   name: member_epoch_pgives
   schema: public
 object_relationships:
-  - name: circle
-    using:
-      manual_configuration:
-        column_mapping:
-          circle_id: id
-        insertion_order: null
-        remote_table:
-          name: circles
-          schema: public
   - name: epoch
     using:
       foreign_key_constraint_on: epoch_id
-  - name: organization
-    using:
-      manual_configuration:
-        column_mapping:
-          organization_id: id
-        insertion_order: null
-        remote_table:
-          name: organizations
-          schema: public
   - name: user
     using:
       foreign_key_constraint_on: user_id
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - circle_id
-        - created_at
-        - epoch_id
-        - gives_received
-        - id
-        - normalized_pgive
-        - opt_out_bonus
-        - organization_id
-        - pgive
-        - user_id
-      filter:
-        user:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-      allow_aggregations: true

@@ -23,7 +23,17 @@ object_relationships:
   - name: organization
     using:
       foreign_key_constraint_on: organization_id
+  - name: vault
+    using:
+      foreign_key_constraint_on: fixed_payment_vault_id
 array_relationships:
+  - name: activities
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          name: activities
+          schema: public
   - name: api_keys
     using:
       foreign_key_constraint_on:
@@ -44,6 +54,13 @@ array_relationships:
         column: circle_id
         table:
           name: circle_metadata
+          schema: public
+  - name: circle_share_tokens
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          name: circle_share_tokens
           schema: public
   - name: contributions
     using:
@@ -98,6 +115,13 @@ array_relationships:
         table:
           name: token_gifts
           schema: public
+  - name: user_api_tokens
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          name: user_api_tokens
+          schema: discord
   - name: users
     using:
       foreign_key_constraint_on:

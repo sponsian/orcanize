@@ -2,81 +2,15 @@ table:
   name: colinks_gives
   schema: public
 object_relationships:
-  - name: give_skill
+  - name: activity
+    using:
+      foreign_key_constraint_on: activity_id
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+  - name: profileByTargetProfileId
+    using:
+      foreign_key_constraint_on: target_profile_id
+  - name: skillBySkill
     using:
       foreign_key_constraint_on: skill
-  - name: giver_profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
-  - name: target_profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          target_profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
-select_permissions:
-  - role: anon
-    permission:
-      columns:
-        - activity_id
-        - attestation_uid
-        - cast_hash
-        - created_at
-        - id
-        - profile_id
-        - skill
-        - target_profile_id
-        - updated_at
-      filter: {}
-      limit: 100
-      allow_aggregations: true
-    comment: ""
-  - role: user
-    permission:
-      columns:
-        - activity_id
-        - attestation_uid
-        - cast_hash
-        - created_at
-        - id
-        - profile_id
-        - skill
-        - target_profile_id
-        - updated_at
-        - warpcast_url
-      filter: {}
-      allow_aggregations: true
-    comment: ""
-update_permissions:
-  - role: user
-    permission:
-      columns:
-        - skill
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
-      check: null
-    comment: ""
-event_triggers:
-  - name: createNotificationColinksGives
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      interval_sec: 10
-      num_retries: 0
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=createNotificationColinksGives'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET

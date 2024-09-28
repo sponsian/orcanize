@@ -2,35 +2,9 @@ table:
   name: invite_codes
   schema: public
 object_relationships:
-  - name: invited
+  - name: profile
     using:
-      manual_configuration:
-        column_mapping:
-          invited_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
-  - name: inviter
+      foreign_key_constraint_on: invited_id
+  - name: profileByInviterId
     using:
-      manual_configuration:
-        column_mapping:
-          inviter_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - code
-        - created_at
-        - invited_id
-        - inviter_id
-        - updated_at
-      filter:
-        inviter_id:
-          _eq: X-Hasura-User-Id
-      allow_aggregations: true
-    comment: ""
+      foreign_key_constraint_on: inviter_id

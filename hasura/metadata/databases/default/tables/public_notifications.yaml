@@ -2,88 +2,18 @@ table:
   name: notifications
   schema: public
 object_relationships:
-  - name: actor_profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          actor_profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
-  - name: give
-    using:
-      manual_configuration:
-        column_mapping:
-          colinks_give_id: id
-        insertion_order: null
-        remote_table:
-          name: colinks_gives
-          schema: public
-  - name: invited_profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          invite_joined_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
   - name: link_tx
     using:
       foreign_key_constraint_on: link_tx_hash
-  - name: mention_post
-    using:
-      manual_configuration:
-        column_mapping:
-          mention_post_id: id
-        insertion_order: null
-        remote_table:
-          name: contributions
-          schema: public
-  - name: mention_reply
-    using:
-      manual_configuration:
-        column_mapping:
-          mention_reply_id: id
-        insertion_order: null
-        remote_table:
-          name: replies
-          schema: public
   - name: profile
     using:
       foreign_key_constraint_on: profile_id
   - name: reaction
     using:
       foreign_key_constraint_on: reaction_id
+  - name: replies_reaction
+    using:
+      foreign_key_constraint_on: reply_reaction_id
   - name: reply
     using:
       foreign_key_constraint_on: reply_id
-  - name: reply_reaction
-    using:
-      manual_configuration:
-        column_mapping:
-          reply_reaction_id: id
-        insertion_order: null
-        remote_table:
-          name: replies_reactions
-          schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - created_at
-        - id
-        - invite_joined_id
-        - link_tx_hash
-        - mention_post_id
-        - mention_reply_id
-        - profile_id
-        - reaction_id
-        - reply_id
-        - reply_reaction_id
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
-      allow_aggregations: true
-    comment: ""

@@ -1,40 +1,7 @@
 table:
   name: linkedin_accounts
   schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - name
-        - picture
-        - profile_id
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
-      limit: 1
-    comment: ""
-delete_permissions:
-  - role: user
-    permission:
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
-    comment: ""
-event_triggers:
-  - name: updateProfileRepScore_linkedin
-    definition:
-      delete:
-        columns: '*'
-      enable_manual: false
-      insert:
-        columns: '*'
-      update:
-        columns: '*'
-    retry_conf:
-      interval_sec: 10
-      num_retries: 0
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=updateProfileRepScore'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id

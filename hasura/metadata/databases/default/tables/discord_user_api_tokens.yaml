@@ -1,3 +1,13 @@
 table:
   name: user_api_tokens
   schema: discord
+object_relationships:
+  - name: circle
+    using:
+      foreign_key_constraint_on: circle_id
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+  - name: user
+    using:
+      foreign_key_constraint_on: discord_user

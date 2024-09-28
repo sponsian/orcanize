@@ -1,42 +1,18 @@
 table:
   name: skills
   schema: public
-object_relationships:
+array_relationships:
+  - name: colinks_gives
+    using:
+      foreign_key_constraint_on:
+        column: skill
+        table:
+          name: colinks_gives
+          schema: public
   - name: profile_skills
     using:
-      manual_configuration:
-        column_mapping:
-          name: skill_name
-        insertion_order: null
-        remote_table:
+      foreign_key_constraint_on:
+        column: skill_name
+        table:
           name: profile_skills
           schema: public
-insert_permissions:
-  - role: user
-    permission:
-      check: {}
-      columns:
-        - name
-    comment: ""
-select_permissions:
-  - role: anon
-    permission:
-      columns:
-        - hidden
-        - count
-        - created_at
-        - updated_at
-        - name
-      filter: {}
-      limit: 1
-    comment: ""
-  - role: user
-    permission:
-      columns:
-        - count
-        - created_at
-        - hidden
-        - name
-        - updated_at
-      filter: {}
-    comment: ""

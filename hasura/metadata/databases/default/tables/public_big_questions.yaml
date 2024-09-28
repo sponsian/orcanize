@@ -4,27 +4,22 @@ table:
 array_relationships:
   - name: activities
     using:
-      manual_configuration:
-        column_mapping:
-          id: big_question_id
-        insertion_order: null
-        remote_table:
+      foreign_key_constraint_on:
+        column: big_question_id
+        table:
           name: activities
           schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - id
-        - cover_image_url
-        - css_background_position
-        - description
-        - prompt
-        - created_at
-        - expire_at
-        - publish_at
-        - updated_at
-      filter:
-        publish_at:
-          _is_null: false
-    comment: ""
+  - name: contributions
+    using:
+      foreign_key_constraint_on:
+        column: big_question_id
+        table:
+          name: contributions
+          schema: public
+  - name: profiles
+    using:
+      foreign_key_constraint_on:
+        column: last_emailed_big_question_id
+        table:
+          name: profiles
+          schema: public

@@ -1,22 +1,11 @@
 table:
   name: epoches
   schema: public
-configuration:
-  column_config: {}
-  custom_column_names: {}
-  custom_name: epochs
-  custom_root_fields: {}
 object_relationships:
   - name: circle
     using:
-      manual_configuration:
-        column_mapping:
-          circle_id: id
-        insertion_order: null
-        remote_table:
-          name: circles
-          schema: public
-  - name: pgive_data
+      foreign_key_constraint_on: circle_id
+  - name: epoch_pgive_datum
     using:
       foreign_key_constraint_on:
         column: epoch_id
@@ -45,23 +34,12 @@ array_relationships:
         table:
           name: distributions
           schema: public
-  - name: epoch_pending_token_gifts
+  - name: locked_token_distributions
     using:
-      manual_configuration:
-        column_mapping:
-          id: epoch_id
-        insertion_order: null
-        remote_table:
-          name: pending_token_gifts
-          schema: public
-  - name: histories
-    using:
-      manual_configuration:
-        column_mapping:
-          id: epoch_id
-        insertion_order: null
-        remote_table:
-          name: histories
+      foreign_key_constraint_on:
+        column: epoch_id
+        table:
+          name: locked_token_distributions
           schema: public
   - name: member_epoch_pgives
     using:
@@ -77,100 +55,3 @@ array_relationships:
         table:
           name: token_gifts
           schema: public
-select_permissions:
-  - role: api-user
-    permission:
-      columns:
-        - circle_id
-        - created_at
-        - days
-        - description
-        - end_date
-        - ended
-        - grant
-        - id
-        - number
-        - regift_days
-        - repeat
-        - repeat_day_of_month
-        - start_date
-        - updated_at
-      filter:
-        circle:
-          api_keys:
-            _and:
-              - hash:
-                  _eq: X-Hasura-Api-Key-Hash
-              - read_epochs:
-                  _eq: true
-      limit: 10
-  - role: user
-    permission:
-      columns:
-        - circle_id
-        - created_at
-        - days
-        - description
-        - end_date
-        - ended
-        - grant
-        - id
-        - notified_before_end
-        - notified_end
-        - notified_start
-        - number
-        - repeat
-        - repeat_data
-        - repeat_day_of_month
-        - start_date
-        - updated_at
-      filter:
-        circle:
-          organization:
-            members:
-              _and:
-                - profile_id:
-                    _eq: X-Hasura-User-Id
-                - deleted_at:
-                    _is_null: true
-update_permissions:
-  - role: user
-    permission:
-      columns:
-        - description
-      filter:
-        _and:
-          - circle:
-              users:
-                _and:
-                  - profile:
-                      id:
-                        _eq: X-Hasura-User-Id
-                  - deleted_at:
-                      _is_null: true
-                  - role:
-                      _eq: 1
-          - ended:
-              _eq: false
-      check: {}
-event_triggers:
-  - name: activityEpochInsert
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      interval_sec: 10
-      num_retries: 5
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=activityHandler'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-    cleanup_config:
-      batch_size: 10000
-      clean_invocation_logs: false
-      clear_older_than: 168
-      paused: true
-      schedule: 0 0 * * *
-      timeout: 60

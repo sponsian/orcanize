@@ -5,42 +5,14 @@ object_relationships:
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
-  - name: createdByUser
+  - name: user
     using:
       foreign_key_constraint_on: created_by
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - circle_id
-        - create_contributions
-        - create_vouches
-        - created_at
-        - created_by
-        - hash
-        - manage_users
-        - name
-        - read_circle
-        - read_contributions
-        - read_epochs
-        - read_member_profiles
-        - read_nominees
-        - read_pending_token_gifts
-        - update_circle
-        - update_pending_token_gifts
-      filter:
-        circle:
-          users:
-            profile_id:
-              _eq: X-Hasura-User-Id
-delete_permissions:
-  - role: user
-    permission:
-      filter:
-        circle:
-          users:
-            _and:
-              - role:
-                  _eq: 1
-              - profile_id:
-                  _eq: X-Hasura-User-Id
+array_relationships:
+  - name: contributions
+    using:
+      foreign_key_constraint_on:
+        column: created_with_api_key_hash
+        table:
+          name: contributions
+          schema: public

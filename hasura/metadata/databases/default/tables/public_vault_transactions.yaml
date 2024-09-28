@@ -17,26 +17,3 @@ object_relationships:
   - name: vault_tx_type
     using:
       foreign_key_constraint_on: tx_type
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - circle_id
-        - created_at
-        - created_by
-        - distribution_id
-        - id
-        - tx_hash
-        - tx_type
-        - updated_at
-        - vault_id
-      filter:
-        vault:
-          organization:
-            members:
-              _and:
-                - profile:
-                    id:
-                      _eq: X-Hasura-User-Id
-                - deleted_at:
-                    _is_null: true

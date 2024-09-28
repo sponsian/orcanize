@@ -1,10 +1,3 @@
 table:
   name: contribution_count
   schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - contributions
-        - profile_id
-      filter: {}

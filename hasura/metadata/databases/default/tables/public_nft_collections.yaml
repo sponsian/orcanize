@@ -1,15 +1,14 @@
 table:
   name: nft_collections
   schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - banner_image_url
-        - external_url
-        - name
-        - slug
-        - address
-      filter: {}
-      limit: 1
-    comment: ""
+array_relationships:
+  - name: nft_holdings
+    using:
+      manual_configuration:
+        column_mapping:
+          address: contract
+          chain_id: chain_id
+        insertion_order: null
+        remote_table:
+          name: nft_holdings
+          schema: public

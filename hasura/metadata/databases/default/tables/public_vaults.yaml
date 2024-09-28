@@ -9,6 +9,13 @@ object_relationships:
     using:
       foreign_key_constraint_on: created_by
 array_relationships:
+  - name: circles
+    using:
+      foreign_key_constraint_on:
+        column: fixed_payment_vault_id
+        table:
+          name: circles
+          schema: public
   - name: distributions
     using:
       foreign_key_constraint_on:
@@ -23,19 +30,3 @@ array_relationships:
         table:
           name: vault_transactions
           schema: public
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - chain_id
-        - created_at
-        - created_by
-        - decimals
-        - deployment_block
-        - id
-        - simple_token_address
-        - symbol
-        - token_address
-        - updated_at
-        - vault_address
-      filter: {}

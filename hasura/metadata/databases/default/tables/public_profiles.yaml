@@ -11,6 +11,9 @@ object_relationships:
         remote_table:
           name: address_data_fetches
           schema: public
+  - name: big_question
+    using:
+      foreign_key_constraint_on: last_emailed_big_question_id
   - name: cosoul
     using:
       manual_configuration:
@@ -55,6 +58,20 @@ object_relationships:
           name: users
           schema: discord
 array_relationships:
+  - name: activities
+    using:
+      foreign_key_constraint_on:
+        column: actor_profile_id
+        table:
+          name: activities
+          schema: public
+  - name: activitiesByTargetProfileId
+    using:
+      foreign_key_constraint_on:
+        column: target_profile_id
+        table:
+          name: activities
+          schema: public
   - name: claims
     using:
       manual_configuration:
@@ -103,6 +120,41 @@ array_relationships:
         remote_table:
           name: invite_codes
           schema: public
+  - name: locked_token_distribution_gifts
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: locked_token_distribution_gifts
+          schema: public
+  - name: locked_token_distributions
+    using:
+      foreign_key_constraint_on:
+        column: distributed_by
+        table:
+          name: locked_token_distributions
+          schema: public
+  - name: mutes
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: mutes
+          schema: public
+  - name: mutesByTargetProfileId
+    using:
+      foreign_key_constraint_on:
+        column: target_profile_id
+        table:
+          name: mutes
+          schema: public
+  - name: nft_holdings
+    using:
+      foreign_key_constraint_on:
+        column: address
+        table:
+          name: nft_holdings
+          schema: public
   - name: nominees
     using:
       manual_configuration:
@@ -112,12 +164,61 @@ array_relationships:
         remote_table:
           name: nominees
           schema: public
+  - name: notifications
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: notifications
+          schema: public
   - name: org_members
     using:
       foreign_key_constraint_on:
         column: profile_id
         table:
           name: org_members
+          schema: public
+  - name: organizations
+    using:
+      foreign_key_constraint_on:
+        column: created_by
+        table:
+          name: organizations
+          schema: public
+  - name: pending_vault_transactions
+    using:
+      foreign_key_constraint_on:
+        column: created_by
+        table:
+          name: pending_vault_transactions
+          schema: public
+  - name: personal_access_tokens
+    using:
+      foreign_key_constraint_on:
+        column: tokenable_id
+        table:
+          name: personal_access_tokens
+          schema: public
+  - name: privateStreamVisibilitiesByViewProfileId
+    using:
+      foreign_key_constraint_on:
+        column: view_profile_id
+        table:
+          name: private_stream_visibility
+          schema: public
+  - name: private_stream_visibilities
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: private_stream_visibility
+          schema: public
+  - name: profileSkillsByProfileId
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: profile_skills
           schema: public
   - name: profile_flags
     using:
@@ -126,6 +227,20 @@ array_relationships:
         table:
           name: profile_flags
           schema: public
+  - name: replies
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: replies
+          schema: public
+  - name: user_api_tokens
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: user_api_tokens
+          schema: discord
   - name: users
     using:
       foreign_key_constraint_on:

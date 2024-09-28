@@ -5,133 +5,21 @@ object_relationships:
   - name: activity
     using:
       foreign_key_constraint_on: activity_id
-  - name: private_stream_visibility
-    using:
-      manual_configuration:
-        column_mapping:
-          activity_actor_id: view_profile_id
-        insertion_order: null
-        remote_table:
-          name: private_stream_visibility
-          schema: public
   - name: profile
     using:
       foreign_key_constraint_on: profile_id
-  - name: profile_public
-    using:
-      manual_configuration:
-        column_mapping:
-          profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
 array_relationships:
-  - name: reactions
+  - name: notifications
     using:
-      manual_configuration:
-        column_mapping:
-          id: reply_id
-        insertion_order: null
-        remote_table:
+      foreign_key_constraint_on:
+        column: reply_id
+        table:
+          name: notifications
+          schema: public
+  - name: replies_reactions
+    using:
+      foreign_key_constraint_on:
+        column: reply_id
+        table:
           name: replies_reactions
           schema: public
-insert_permissions:
-  - role: user
-    permission:
-      check:
-        _or:
-          - private_stream_visibility:
-              profile_id:
-                _eq: X-Hasura-User-Id
-          - activity:
-              big_question_id:
-                _is_null: false
-      set:
-        profile_id: x-hasura-User-Id
-      columns:
-        - activity_actor_id
-        - activity_id
-        - reply
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - activity_actor_id
-        - activity_id
-        - created_at
-        - deleted_at
-        - id
-        - profile_id
-        - reply
-        - updated_at
-      filter:
-        _and:
-          - _or:
-              - private_stream_visibility:
-                  profile_id:
-                    _eq: X-Hasura-User-Id
-              - activity:
-                  big_question_id:
-                    _is_null: false
-          - deleted_at:
-              _is_null: true
-          - _not:
-              profile_public:
-                mutes:
-                  profile_id:
-                    _eq: X-Hasura-User-Id
-      limit: 100
-      allow_aggregations: true
-update_permissions:
-  - role: user
-    permission:
-      columns:
-        - deleted_at
-      filter:
-        _and:
-          - profile_id:
-              _eq: X-Hasura-User-Id
-          - deleted_at:
-              _is_null: true
-      check: {}
-    comment: ""
-event_triggers:
-  - name: createNotificationReplies
-    definition:
-      delete:
-        columns: '*'
-      enable_manual: false
-      insert:
-        columns: '*'
-      update:
-        columns:
-          - id
-          - created_at
-          - updated_at
-          - activity_id
-          - profile_id
-          - activity_actor_id
-          - deleted_at
-          - reply
-    retry_conf:
-      interval_sec: 10
-      num_retries: 0
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=createNotificationReplies'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: createReplyInteractionEvent
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      interval_sec: 10
-      num_retries: 0
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=createReplyInteractionEvent'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET

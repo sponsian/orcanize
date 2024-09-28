@@ -1,8 +1,14 @@
 table:
   name: vault_tx_types
   schema: public
-is_enum: true
 array_relationships:
+  - name: pending_vault_transactions
+    using:
+      foreign_key_constraint_on:
+        column: tx_type
+        table:
+          name: pending_vault_transactions
+          schema: public
   - name: vault_transactions
     using:
       foreign_key_constraint_on:
@@ -10,16 +16,3 @@ array_relationships:
         table:
           name: vault_transactions
           schema: public
-select_permissions:
-  - role: api-user
-    permission:
-      columns:
-        - comment
-        - value
-      filter: {}
-  - role: user
-    permission:
-      columns:
-        - value
-        - comment
-      filter: {}
