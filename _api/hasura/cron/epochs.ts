@@ -683,7 +683,7 @@ export async function createNextEpoch(epoch: {
 
   await adminClient.mutate(
     {
-      insert_epochs_one: [
+      insert_epoches_one: [
         {
           object: {
             circle_id: epoch.circle_id,

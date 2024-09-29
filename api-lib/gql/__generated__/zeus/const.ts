@@ -7743,7 +7743,7 @@ export const AllTypesProps: Record<string, any> = {
       objects: 'epochs_insert_input',
       on_conflict: 'epochs_on_conflict',
     },
-    insert_epochs_one: {
+    insert_epoches_one: {
       object: 'epochs_insert_input',
       on_conflict: 'epochs_on_conflict',
     },
@@ -22647,7 +22647,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
     insert_epoch_pgive_data_one: 'epoch_pgive_data',
     insert_epochs: 'epochs_mutation_response',
-    insert_epochs_one: 'epochs',
+    insert_epoches_one: 'epochs',
     insert_farcaster_accounts: 'farcaster_accounts_mutation_response',
     insert_farcaster_accounts_one: 'farcaster_accounts',
     insert_farcaster_casts: 'farcaster_casts_mutation_response',

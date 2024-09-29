@@ -66,9 +66,6 @@ export const getNavData = (profileId: number) =>
           address: true,
           description: true,
           tos_agreed_at: true,
-          cosoul: {
-            id: true,
-          },
         },
       ],
       users: [{ where: { profile: { id: { _eq: profileId } } } }, { id: true }],
@@ -76,16 +73,21 @@ export const getNavData = (profileId: number) =>
     { operationName: 'getNavData' }
   );
 
+  console.log({client: client.query})
+
 export const QUERY_KEY_NAV = 'Nav';
 
 // FIXME this is redundant with fetchManifest
 export const useNavQuery = () => {
   const profileId = useProfileId();
-
+  console.log({profileId})
   return useQuery(
     [QUERY_KEY_NAV, profileId],
     async () => {
+     
       const data = await getNavData(profileId as number);
+      
+      console.log({data})
       const profile = data.profiles?.[0];
       if (!profile) {
         throw new Error('no profile for current user');

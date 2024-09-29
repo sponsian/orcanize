@@ -20,9 +20,9 @@ const createEpoch = async (object: {
   repeat_data?: RepeatData;
 }) => {
   try {
-    const { insert_epochs_one } = await adminClient.mutate(
+    const { insert_epoches_one } = await adminClient.mutate(
       {
-        insert_epochs_one: [
+        insert_epoches_one: [
           { object: { ...object, ended: true, number: 1 } },
           {
             id: true,
@@ -37,7 +37,7 @@ const createEpoch = async (object: {
       { operationName: 'createEpochToEnd' }
     );
 
-    return insert_epochs_one;
+    return insert_epoches_one;
   } catch (e) {
     console.error(e);
   }

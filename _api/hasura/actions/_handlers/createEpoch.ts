@@ -218,9 +218,9 @@ async function insertNewEpoch(
   }: z.infer<typeof EpochInputSchema>,
   creatorProfileId: number
 ) {
-  const { insert_epochs_one } = await adminClient.mutate(
+  const { insert_epoches_one } = await adminClient.mutate(
     {
-      insert_epochs_one: [
+      insert_epoches_one: [
         {
           object: {
             circle_id,
@@ -241,7 +241,7 @@ async function insertNewEpoch(
     }
   );
 
-  response.status(200).json(insert_epochs_one);
+  response.status(200).json(insert_epoches_one);
 }
 
 export async function verifyFutureEndDate({

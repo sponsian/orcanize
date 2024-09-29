@@ -96,7 +96,8 @@ export const useFinishAuth = () => {
         setTimeout(() =>
           fetchManifest(profileId)
             .then(() => res(true))
-            .catch(() => {
+            .catch((err) => {
+              console.log({err})              
               // we had a cached token & it's invalid, so log out
               // FIXME don't logout if request timed out
               logout();

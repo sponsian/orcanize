@@ -403,12 +403,12 @@ export async function makeEpoch(
 
   const result = await adminClient.mutate(
     {
-      insert_epochs_one: [{ object: epoch }, { id: true }],
+      insert_epoches_one: [{ object: epoch }, { id: true }],
     },
     { operationName: 'seed_data' }
   );
-  if (!result.insert_epochs_one) throw new Error('no epoch created');
-  return result.insert_epochs_one.id;
+  if (!result.insert_epoches_one) throw new Error('no epoch created');
+  return result.insert_epoches_one.id;
 }
 
 type MemberInput = Awaited<ReturnType<typeof insertMemberships>>;

@@ -679,7 +679,7 @@ describe('epoch Cron Logic', () => {
       );
       expect(mockMutation).toBeCalledWith(
         {
-          insert_epochs_one: [
+          insert_epoches_one: [
             {
               object: {
                 circle_id: 1,

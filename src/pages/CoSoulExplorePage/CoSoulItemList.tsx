@@ -72,7 +72,7 @@ export const CoSoulItemList = ({
           }}
         >
           {data.pages.map(page =>
-            page.map(cosoul => <CoSoulItem cosoul={cosoul} key={cosoul.id} />)
+            page.map((cosoul:any) => <CoSoulItem cosoul={cosoul} key={cosoul.id} />)
           )}
         </Box>
       )}

@@ -17,6 +17,119 @@ const queryManifest = async (profileId: number) => {
   // Fetch as much as we can in this massive query. This mimics the old php fetch-manifest logic.
   // This will be destructured and spread out into smaller queries soon - this is for backwards compat w/ FE with
   // as little disruption as possible.
+  try {
+    const x = await client.query(
+      {
+        profiles_by_pk: [
+          { id: profileId },
+          {
+            id: true,
+            address: true,
+            avatar: true,
+            background: true,
+            bio: true,
+            discord_username: true,
+            github_username: true,
+            medium_username: true,
+            telegram_username: true,
+            twitter_username: true,
+            website: true,
+            skills: true,
+            created_at: true,
+            updated_at: true,
+            name: true,
+            cosoul: {
+              id: true,
+            },
+            users: [
+              {},
+              {
+                id: true,
+                profile_id: true,
+                bio: true,
+                circle_id: true,
+                created_at: true,
+                epoch_first_visit: true,
+                fixed_non_receiver: true,
+                give_token_received: true,
+                give_token_remaining: true,
+                non_giver: true,
+                non_receiver: true,
+                role: true,
+                starting_tokens: true,
+                updated_at: true,
+                user_private: { fixed_payment_amount: true },
+                circle: {
+                  id: true,
+                  alloc_text: true,
+                  allow_distribute_evenly: true,
+                  auto_opt_out: true,
+                  cont_help_text: true,
+                  created_at: true,
+                  default_opt_in: true,
+                  fixed_payment_token_type: true,
+                  fixed_payment_vault_id: true,
+                  guild_id: true,
+                  guild_role_id: true,
+                  is_verified: true,
+                  logo: true,
+                  min_vouches: true,
+                  name: true,
+                  nomination_days_limit: true,
+                  only_giver_vouch: true,
+                  organization_id: true,
+                  show_pending_gives: true,
+                  team_selection: true,
+                  token_name: true,
+                  updated_at: true,
+                  vouching_text: true,
+                  vouching: true,
+                  organization: {
+                    id: true,
+                    logo: true,
+                    name: true,
+                    sample: true,
+                    created_at: true,
+                    updated_at: true,
+                  },
+                },
+              },
+            ],
+            org_members: [
+              { where: { profile_id: { _eq: profileId } } },
+              {
+                org_id: true,
+                role: true,
+                organization: {
+                  id: true,
+                  name: true,
+                  guild_id: true,
+                  guild_role_id: true,
+                  circles: [
+                    {},
+                    {
+                      id: true,
+                      __alias: {
+                        myUsers: {
+                          users: [
+                            { where: { profile: { id: { _eq: profileId } } } },
+                            { role: true },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      },
+      { operationName: 'fetchManifest' }
+    );
+  } catch (e) { 
+    console.log({xxx:e})
+  }
   const data = await client.query(
     {
       profiles_by_pk: [
@@ -192,6 +305,11 @@ export const useFetchManifest = () => {
         if (isCoLinksSite) return { profiles_by_pk: undefined };
         if (!profileId) profileId = savedAuth.id;
         assert(profileId, 'no profile ID for fetchManifest');
+        try {
+          const y = await queryManifest(profileId);
+        } catch (e) { 
+          console.log(e)
+        }
         const data = await queryManifest(profileId);
 
         // legacy data format is still in use in Recoil

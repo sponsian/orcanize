@@ -102,9 +102,9 @@ async function createCircle(
   const start_date = DateTime.now();
   const end_date = DateTime.now().plus({ days: 7 });
 
-  const { insert_epochs_one } = await adminClient.mutate(
+  const { insert_epoches_one } = await adminClient.mutate(
     {
-      insert_epochs_one: [
+      insert_epoches_one: [
         {
           object: {
             start_date: start_date.toISO(),
@@ -122,7 +122,7 @@ async function createCircle(
     }
   );
 
-  if (!insert_epochs_one) {
+  if (!insert_epoches_one) {
     throw new Error('epoch creation failed');
   }
 
@@ -208,7 +208,7 @@ async function createCircle(
         const recipGift = sm.gifts[+recipIdx];
         return addSampleAllocation(
           circle.id,
-          insert_epochs_one.id,
+          insert_epoches_one.id,
           sm.user_id,
           sm.address,
           recip.user_id,

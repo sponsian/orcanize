@@ -46,9 +46,9 @@ export async function createEpoch(
   const days = object?.days || 3;
   const start_date = object?.start_date || dateNow;
   const end_date = start_date.plus({ days });
-  const { insert_epochs_one } = await client.mutate(
+  const { insert_epoches_one } = await client.mutate(
     {
-      insert_epochs_one: [
+      insert_epoches_one: [
         {
           object: {
             repeat: 0,
@@ -70,9 +70,9 @@ export async function createEpoch(
     },
     { operationName: 'createEpoch' }
   );
-  if (!insert_epochs_one) {
+  if (!insert_epoches_one) {
     throw new Error('Epoch not created');
   }
 
-  return insert_epochs_one;
+  return insert_epoches_one;
 }
