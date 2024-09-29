@@ -305,29 +305,6 @@ export const WalletAuthModal = () => {
                 >
                   <NetworkSelector />
                 </Flex>
-                <Flex
-                  css={{
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '$md',
-                    flexWrap: 'nowrap',
-                  }}
-                >
-                  {' '}
-                  <HR css={{ flexShrink: 2 }} />
-                  <Text css={{ flexShrink: 1, whiteSpace: 'nowrap' }}>
-                    or continue with email
-                  </Text>
-                  <HR css={{ flexShrink: 2 }} />
-                </Flex>
-                <Button
-                  variant="wallet"
-                  fullWidth
-                  onClick={showExplainerIfNeeded}
-                >
-                  Email
-                  <Mail />
-                </Button>
               </Flex>
             </Box>
           )}
