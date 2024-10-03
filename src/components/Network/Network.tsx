@@ -11,6 +11,7 @@ import {
   OptimismInverseLogo,
   OptimismLogo,
   PolygonMaticLogo,
+  ReefLogo
 } from 'icons/__generated';
 import { Flex, Text } from 'ui';
 
@@ -31,6 +32,7 @@ export const Network = ({
     1338: <GanacheLogo nostroke />,
     250: <FantomLogo nostroke />,
     1313161554: <AuroraLogo nostroke />,
+    1997: <ReefLogo nostroke />,
     420: <OptimismInverseLogo nostroke />,
   };
   const chainName = loginSupportedChainIds[chainId] || 'Unknown Chain';

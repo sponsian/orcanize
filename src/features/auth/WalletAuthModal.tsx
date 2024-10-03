@@ -11,6 +11,7 @@ import { CircularProgress } from '@material-ui/core';
 import CoinbaseSVG from '../../assets/svgs/wallet/coinbase.svg?react'; //'../../assets/svgs/wallet/coinbase.svg?component';
 import MetaMaskSVG from '../../assets/svgs/wallet/metamask-color.svg?react';
 import WalletConnectSVG from '../../assets/svgs/wallet/wallet-connect.svg?react';
+import WalletReefBrowserSVG from '../../assets/svgs/wallet/reefwallet.svg?react';
 import { chain } from '../cosoul/chains';
 import { switchToCorrectChain } from '../web3/chainswitch';
 import { EConnectorNames } from 'config/constants';
@@ -36,6 +37,7 @@ const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.Injected]: MetaMaskSVG,
   [EConnectorNames.WalletConnect]: WalletConnectSVG,
   [EConnectorNames.WalletLink]: CoinbaseSVG,
+  [EConnectorNames.ReefWallet]: WalletReefBrowserSVG
 };
 
 export const WalletAuthModal = () => {
@@ -273,6 +275,18 @@ export const WalletAuthModal = () => {
                     <WALLET_ICONS.injected />
                   </Button>
                 )}
+
+                <Button
+                  variant="wallet"
+                  fullWidth
+                  onClick={() => {
+                    activate(EConnectorNames.ReefWallet);
+                  }}
+                >
+                  Reef Browser
+                  <WALLET_ICONS.reefwallet />
+                </Button>
+
                 <Button
                   variant="wallet"
                   fullWidth
@@ -284,16 +298,7 @@ export const WalletAuthModal = () => {
                   <WALLET_ICONS.walletconnect />
                 </Button>
 
-                <Button
-                  variant="wallet"
-                  fullWidth
-                  onClick={() => {
-                    activate(EConnectorNames.WalletLink);
-                  }}
-                >
-                  Coinbase Wallet
-                  <WALLET_ICONS.walletlink />
-                </Button>
+                
                 <Flex
                   column
                   css={{

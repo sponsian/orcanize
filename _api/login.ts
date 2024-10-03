@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { isCoLinks, hostname } = isCoLinksRequest(req);
 
     const input = parseInput(req);
-
+    console.log({input})
     const { data, signature, connectorName } = input;
 
     let address: string;
@@ -127,7 +127,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       { operationName: 'login_getProfile' }
     );
-
+      console.log({profiles})
     let profile = profiles.pop();
     const tokenString = generateTokenString();
 
@@ -167,7 +167,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           invitedBy = profiles.pop()?.id;
         }
       }
-
+      console.log(
+        {
+          object: {
+            address,
+            connector: connectorName,
+            name: `New User ${address.substring(0, 8)}`,
+            invited_by: invitedBy,
+          },
+        }
+      )
       // make the new user
       const { insert_profiles_one } = await adminClient.mutate(
         {

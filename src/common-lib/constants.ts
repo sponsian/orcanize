@@ -18,6 +18,7 @@ export const loginSupportedChainIds: Record<string, string> = {
   42161: 'Arbitrum One',
   250: 'Fantom Opera',
   1313161554: 'Near Aurora',
+  1997: 'Reef Chain',
   ...(IN_PREVIEW && { 11155420: 'Optimism Sepolia' }),
   ...(IN_DEVELOPMENT && {
     11155420: 'Optimism Sepolia',

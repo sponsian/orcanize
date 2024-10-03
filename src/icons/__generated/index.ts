@@ -7,6 +7,7 @@ export { default as CreamFinanceColor } from './CreamFinanceColor';
 export { default as DeworkColor } from './DeworkColor';
 export { default as Dework } from './Dework';
 export { default as Discord } from './Discord';
+export { default as ReefLogo} from './ReefChain';
 export { default as Github } from './Github';
 export { default as MetaMaskColor } from './MetaMaskColor';
 export { default as Parcel } from './Parcel';

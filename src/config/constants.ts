@@ -4,6 +4,7 @@ export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
+  ReefWallet = 'reefwallet'
 }
 
 export const MAX_BIO_LENGTH = 1200;
