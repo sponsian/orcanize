@@ -26,6 +26,12 @@ import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
 import { NetworkSelector } from './NetworkSelector';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
+import { Components, hooks, ReefSigner } from '@reef-chain/react-lib';
+import useConnectedWallet  from '../../hooks/useConnectedWallet';
+import useWcPreloader from '../../hooks/useWcPreloader';
+import { extension as reefExt } from "@reef-chain/util-lib";
+import { connectWallet , getIpfsGatewayUrl} from 'utils/walletHelper';
+
 const UNSUPPORTED = 'unsupported';
 
 const EMAIL_LOGIN_EXAMPLE_URL =
@@ -41,8 +47,17 @@ const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
 };
 
 export const WalletAuthModal = () => {
+  const { selExtensionName, setSelExtensionName } = useConnectedWallet();
+
   const [connectMessage, setConnectMessage] = useState<string>('');
   const [selectedChain, setSelectedChain] = useState<string>('1');
+
+  const [accounts, setAccounts] = useState<ReefSigner[]>([]);
+  const [tokenList, setTokenList] = useState([]);
+  const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
+    undefined,
+  );
+  const { loading: wcPreloader, setLoading: setWcPreloader } = useWcPreloader();
 
   const { showError, showDefault } = useToast();
   const web3Context = useWeb3React<Web3Provider>();
@@ -53,13 +68,26 @@ export const WalletAuthModal = () => {
   const isCoSoulPage = useIsCoSoulSite();
   const isCoPage = isCoSoulPage || isCoLinksPage;
 
+  const {
+    loading,
+    error,
+    signers,
+    selectedReefSigner,
+    network,
+    provider,
+    reefState,
+    extension,
+  } = hooks.useInitReefStateExtension("lhichri app", selExtensionName, {
+    ipfsHashResolverFn: getIpfsGatewayUrl,
+  });
+
   const mounted = useRef(false);
-  useEffect(() => {
+  /*useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
     };
-  }, []);
+  }, []);*/
 
   const unsupportedNetwork = selectedChain == UNSUPPORTED;
 
@@ -88,9 +116,19 @@ export const WalletAuthModal = () => {
     }
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     // safe to refer to window here because we are client side -g
     const ethereum = (window as any).ethereum;
+    console.log({
+      loading,
+      error,
+      signers,
+      selectedReefSigner,
+      network,
+      provider,
+      reefState,
+      extension,
+    })
     setIsMetamaskEnabled(!!ethereum);
 
     if (ethereum) {
@@ -100,11 +138,48 @@ export const WalletAuthModal = () => {
       updateChain(provider);
     }
   }, []);
+  */
+
+  useEffect(() => {
+    if(!selectedReefSigner && !loading) setSelExtensionName(undefined)
+  }, [loading])
+
+  /*useEffect(() => {
+    setAccounts([]);
+    setSelectedSigner(undefined);
+  }, [selExtensionName]);*/
+
+ 
+
+
+  useEffect(() => {
+    console.log({signers})
+    setAccounts(signers);
+    setSelectedSigner(selectedReefSigner);
+    reefState.setAccounts(signers);
+    
+    if (signers?.length && signers?.indexOf(selectedReefSigner!) == -1) {
+      reefState.setSelectedAddress(signers[0].address);
+    }
+  }, [selectedReefSigner, signers]);
+
+  useEffect(() => {
+    if(error?.code === 1) {
+      setSelExtensionName(undefined)
+    } 
+    console.log({error}) 
+  }, [error])
 
   const isConnecting = !!connectMessage;
 
   const activate = async (connectorName: EConnectorNames) => {
-    window.localStorage.removeItem(KEY_MAGIC_NETWORK);
+    console.log({connectorName})
+    if(connectorName.includes('reef')) {
+      console.log('test' , reefExt.REEF_EXTENSION_IDENT)
+      setSelExtensionName(reefExt.REEF_EXTENSION_IDENT)
+      console.log({extension})
+    } else {
+      window.localStorage.removeItem(KEY_MAGIC_NETWORK);
     const newConnector = connectors[connectorName];
 
     setConnectMessage(
@@ -144,6 +219,21 @@ export const WalletAuthModal = () => {
     }
 
     if (mounted.current) setConnectMessage('');
+    }
+    
+  };
+
+  const availableWallOptions = [
+    Components.walletSelectorOptions[reefExt.REEF_EXTENSION_IDENT],
+    Components.walletSelectorOptions[reefExt.REEF_WALLET_CONNECT_IDENT],
+  ];
+
+  const onExtensionSelected = async (ident: string) => {
+    if (ident === reefExt.REEF_WALLET_CONNECT_IDENT) {
+      await connectWallet(ident, setSelExtensionName, setWcPreloader);
+    } else {
+      setSelExtensionName(ident);
+    }
   };
 
   const showExplainerIfNeeded = () => {
@@ -237,10 +327,16 @@ export const WalletAuthModal = () => {
               </Button>
             </Flex>
           )}
-          {isConnecting ? (
-            <Flex row css={{ justifyContent: 'center', width: '100%' }}>
-              <CircularProgress />
-              <Text css={{ gap: '$sm', padding: '$sm' }}>{connectMessage}</Text>
+          {loading ? (
+            <Flex column css={{ justifyContent: 'center', width: '100%' }}>
+              <CircularProgress className='spinner-wallet-auth-modal' style={{ margin: 'auto'}}/>
+              <Button
+                    onClick={() => {
+                      setSelExtensionName(undefined);
+                    }}
+                  >
+                    Cancel connection
+                  </Button>
             </Flex>
           ) : (
             <Box css={{ width: '$full' }}>
@@ -251,7 +347,8 @@ export const WalletAuthModal = () => {
                   gap: '$md',
                 }}
               >
-                {isMetamaskEnabled ? (
+                {/*
+                isMetamaskEnabled ? (
                   <Button
                     variant="wallet"
                     disabled={unsupportedNetwork}
@@ -274,32 +371,42 @@ export const WalletAuthModal = () => {
                     Open/Install MetaMask
                     <WALLET_ICONS.injected />
                   </Button>
-                )}
-
-                <Button
+                )
+                */}
+                
+            
+                
+                 
+                    <Button
                   variant="wallet"
                   fullWidth
                   onClick={() => {
-                    activate(EConnectorNames.ReefWallet);
+                    onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)
                   }}
                 >
                   Reef Browser
                   <WALLET_ICONS.reefwallet />
                 </Button>
+              
+                
 
                 <Button
                   variant="wallet"
                   fullWidth
                   onClick={() => {
-                    activate(EConnectorNames.WalletConnect);
+                    onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT)
                   }}
+                  
                 >
                   Wallet Connect
                   <WALLET_ICONS.walletconnect />
                 </Button>
 
                 
-                <Flex
+                {
+                  /**
+                   * 
+                   * <Flex
                   column
                   css={{
                     margin: 'auto',
@@ -310,6 +417,9 @@ export const WalletAuthModal = () => {
                 >
                   <NetworkSelector />
                 </Flex>
+                   */
+                }
+                
               </Flex>
             </Box>
           )}

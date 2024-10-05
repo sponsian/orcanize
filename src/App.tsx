@@ -17,6 +17,7 @@ import ThemeProvider from './features/theming/ThemeProvider';
 import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
 
+
 import './App.css';
 
 const theme = createTheme();
@@ -64,18 +65,20 @@ function App() {
       )}
       <RecoilRoot>
         <ErrorBoundary>
+        
           <ToastContainer />
           <QueryClientProvider client={queryClient}>
             <DeprecatedMuiThemeProvider theme={theme}>
               <ThemeProvider>
-                <Web3ReactProvider>
+                
                   <BrowserRouter>
                     <AppRoutes />
                   </BrowserRouter>
-                </Web3ReactProvider>
+               
               </ThemeProvider>
             </DeprecatedMuiThemeProvider>
           </QueryClientProvider>
+          
         </ErrorBoundary>
       </RecoilRoot>
     </HelmetProvider>

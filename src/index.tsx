@@ -8,8 +8,11 @@ import { createRoot } from 'react-dom/client';
 
 import { initSentry } from 'utils/reporting';
 
+import { ConnectedWalletProvider } from './context/ConnectedWalletContext'
+
 import App from './App';
 import { VITE_HASURA_URL } from './config/env';
+import { WcPreloaderProvider } from 'context/WcPreloaderContext';
 
 const wsLink = new GraphQLWsLink(
   createClient({
@@ -42,8 +45,12 @@ const root = createRoot(container!);
 
 root.render(
   <StrictMode>
+    <ConnectedWalletProvider>
+      <WcPreloaderProvider>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
+    </WcPreloaderProvider>
+    </ConnectedWalletProvider>
   </StrictMode>
 );
