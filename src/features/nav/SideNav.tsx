@@ -294,7 +294,7 @@ export const SideNav = () => {
                   <NavProfile
                     name={data.profile.name}
                     avatar={data.profile.avatar}
-                    hasCoSoul={!!data.profile.cosoul}
+                    hasCoSoul={false}
                   />
                 </Flex>
               </Suspense>

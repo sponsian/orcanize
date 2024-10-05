@@ -228,7 +228,7 @@ export async function updateMyProfile(
 ) {
   await client.mutate(
     {
-      update_profiles: [{ payload: { ...params } }, { id: true }],
+      
     },
     {
       operationName: 'updateProfile',

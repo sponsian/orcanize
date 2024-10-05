@@ -10,10 +10,11 @@ export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
+  ReefWallet = 'reefwallet',
 }
 
 type IAuthValue = {
-  connectorName?: EConnectorNames | ProviderType;
+  connectorName?: EConnectorNames | ProviderType ;
   id?: number;
   token?: string;
 };
