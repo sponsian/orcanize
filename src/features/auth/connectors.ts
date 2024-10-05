@@ -68,6 +68,7 @@ export const connectors: { [key in EConnectorNames]: AbstractConnector } = {
   [EConnectorNames.Injected]: injected,
   [EConnectorNames.WalletConnect]: makeWalletConnectConnector(),
   [EConnectorNames.WalletLink]: walletlink,
+  [EConnectorNames.ReefWallet]: walletlink,
 };
 
 export const findConnectorName = (
