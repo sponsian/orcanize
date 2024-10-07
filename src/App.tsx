@@ -70,11 +70,11 @@ function App() {
           <QueryClientProvider client={queryClient}>
             <DeprecatedMuiThemeProvider theme={theme}>
               <ThemeProvider>
-                
+                <Web3ReactProvider>
                   <BrowserRouter>
                     <AppRoutes />
                   </BrowserRouter>
-               
+                  </Web3ReactProvider>
               </ThemeProvider>
             </DeprecatedMuiThemeProvider>
           </QueryClientProvider>
