@@ -17,13 +17,11 @@ import { switchToCorrectChain } from '../web3/chainswitch';
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { Mail } from 'icons/__generated';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
-import { NetworkSelector } from './NetworkSelector';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
 import { Components, hooks, ReefSigner } from '@reef-chain/react-lib';
@@ -53,7 +51,6 @@ export const WalletAuthModal = () => {
   const [selectedChain, setSelectedChain] = useState<string>('1');
 
   const [accounts, setAccounts] = useState<ReefSigner[]>([]);
-  const [tokenList, setTokenList] = useState([]);
   const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
     undefined,
   );
@@ -140,35 +137,26 @@ export const WalletAuthModal = () => {
   }, []);
   */
 
-  useEffect(() => {
-    if(!selectedReefSigner && !loading) setSelExtensionName(undefined)
-  }, [loading])
-
-  /*useEffect(() => {
-    setAccounts([]);
-    setSelectedSigner(undefined);
-  }, [selExtensionName]);*/
-
  
 
 
-  useEffect(() => {
-    console.log({signers})
+
+
+  
+
+  useEffect(()=>{
     setAccounts(signers);
     setSelectedSigner(selectedReefSigner);
-    reefState.setAccounts(signers);
-    
-    if (signers?.length && signers?.indexOf(selectedReefSigner!) == -1) {
-      reefState.setSelectedAddress(signers[0].address);
+    console.log({accounts})
+    // if account connected , hide preloader & set account address
+    if(signers?.length && signers?.indexOf(selectedReefSigner!)==-1){
+      reefState.setSelectedAddress(signers[0].address)
     }
-  }, [selectedReefSigner, signers]);
+    const newConnector = connectors[EConnectorNames.ReefWallet];
+    web3Context.activate(newConnector, () => {}, true);
+  },[selectedReefSigner,signers])
 
-  useEffect(() => {
-    if(error?.code === 1) {
-      setSelExtensionName(undefined)
-    } 
-    console.log({error}) 
-  }, [error])
+  
 
   const isConnecting = !!connectMessage;
 
@@ -177,7 +165,7 @@ export const WalletAuthModal = () => {
     if(connectorName.includes('reef')) {
       console.log('test' , reefExt.REEF_EXTENSION_IDENT)
       setSelExtensionName(reefExt.REEF_EXTENSION_IDENT)
-      console.log({extension})
+     
     } else {
       window.localStorage.removeItem(KEY_MAGIC_NETWORK);
     const newConnector = connectors[connectorName];
@@ -317,8 +305,10 @@ export const WalletAuthModal = () => {
               width: '100%',
             }}
           >
-            New to {isCoLinksPage ? 'CoLinks' : 'Coordinape'}? Connect to join.
+            New to Coordinape ? Connect to join.
           </Text>
+
+          
           {unsupportedNetwork && (
             <Flex column css={{ gap: '$md' }}>
               <Text variant="formError">Please switch to Optimism Mainnet</Text>
@@ -327,7 +317,114 @@ export const WalletAuthModal = () => {
               </Button>
             </Flex>
           )}
-          {loading ? (
+
+          {
+            !!!signers ? (
+              <>
+              {
+                !selExtensionName ? (
+                  <Box css={{ width: '$full' }}>
+                  <Flex
+                    column
+                    css={{
+                      width: '$full',
+                      gap: '$md',
+                    }}
+                  >
+                    {/*
+                    isMetamaskEnabled ? (
+                      <Button
+                        variant="wallet"
+                        disabled={unsupportedNetwork}
+                        fullWidth
+                        onClick={() => {
+                          activate(EConnectorNames.Injected);
+                        }}
+                      >
+                        MetaMask
+                        <WALLET_ICONS.injected />
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="wallet"
+                        fullWidth
+                        onClick={() => {
+                          openMetaMask();
+                        }}
+                      >
+                        Open/Install MetaMask
+                        <WALLET_ICONS.injected />
+                      </Button>
+                    )
+                    */}
+                    
+                
+                    
+                     
+                        <Button
+                      variant="wallet"
+                      fullWidth
+                      onClick={() => {
+                        onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)
+                      }}
+                    >
+                      Reef Browser
+                      <WALLET_ICONS.reefwallet />
+                    </Button>
+                  
+                    
+    
+                    <Button
+                      variant="wallet"
+                      fullWidth
+                      onClick={() => {
+                        onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT)
+                      }}
+                      
+                    >
+                      Wallet Connect
+                      <WALLET_ICONS.walletconnect />
+                    </Button>
+    
+                    
+                    {
+                      /**
+                       * 
+                       * <Flex
+                      column
+                      css={{
+                        margin: 'auto',
+                        button: {
+                          background: '$walletButton',
+                        },
+                      }}
+                    >
+                      <NetworkSelector />
+                    </Flex>
+                       */
+                    }
+                    
+                  </Flex>
+                </Box>
+                ) : (
+                  <Flex column css={{ justifyContent: 'center', width: '100%' }}>
+              <CircularProgress className='spinner-wallet-auth-modal' style={{ margin: 'auto', marginBottom: '2vh', marginTop: '2vh'}}/>
+              <Button
+                    onClick={() => {
+                      setSelExtensionName(undefined);
+                    }}
+                  >
+                    Cancel connection
+                  </Button>
+            </Flex>
+                )
+              }
+              </>
+            ) : (
+              <p>Connected to </p>
+            )
+          }
+          {/*loading ? (
             <Flex column css={{ justifyContent: 'center', width: '100%' }}>
               <CircularProgress className='spinner-wallet-auth-modal' style={{ margin: 'auto'}}/>
               <Button
@@ -372,7 +469,7 @@ export const WalletAuthModal = () => {
                     <WALLET_ICONS.injected />
                   </Button>
                 )
-                */}
+               }
                 
             
                 
@@ -417,12 +514,13 @@ export const WalletAuthModal = () => {
                 >
                   <NetworkSelector />
                 </Flex>
-                   */
+                   
                 }
                 
               </Flex>
             </Box>
-          )}
+          )
+          */}
           <HR css={{ mb: '$sm' }} />
           <Text
             p

@@ -19,7 +19,7 @@ export const loginRoute = [
       element={
         <RequireWeb3Auth>
           <RedirectAfterLogin />
-        </RequireWeb3Auth>
+          </RequireWeb3Auth>
       }
     />
   </Route>,

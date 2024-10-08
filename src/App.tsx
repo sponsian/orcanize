@@ -28,19 +28,6 @@ function App() {
   globalStyles();
   const isCoLinks = useIsCoLinksSite();
 
-  // TODO: add this when we have a good favicon
-  // useEffect(() => {
-  //   if (isCoLinks) {
-  //     let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-  //     if (!link) {
-  //       link = document.createElement('link');
-  //       link.rel = 'icon';
-  //       document.getElementsByTagName('head')[0].appendChild(link);
-  //     }
-  //     link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon.png';
-  //   }
-  // }, []);
-
   return (
     <HelmetProvider>
       {isCoLinks ? (

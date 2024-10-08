@@ -37,7 +37,11 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   const isCoSoulPage = useIsCoSoulSite();
   const isCoPage = isCoSoulPage || isCoLinksPage;
   const magicNetwork = window.localStorage.getItem(KEY_MAGIC_NETWORK);
+
+
+  
   useEffect(() => {
+    console.log('testtt')
     if (
       forceSign &&
       ['reuse', 'connect'].includes(authStep) &&
@@ -111,6 +115,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
             true
           );
         } catch (e) {
+          console.log('error2', e)
           setAuthStep('connect');
           if (showErrors) showError(e);
           web3Context.deactivate();
@@ -161,6 +166,7 @@ export const RequireLoggedIn = (props: { children: ReactNode }) => {
           await web3Context.activate(connector, () => {}, true);
         }
       } catch (e) {
+        console.log('error', e);
         console.error(e);
         web3Context.deactivate();
       }
