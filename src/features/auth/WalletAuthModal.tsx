@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
+import { Components, hooks, ReefSigner } from '@reef-chain/react-lib';
+import { extension as reefExt } from "@reef-chain/util-lib";
 import { loginSupportedChainIds } from 'common-lib/constants';
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
@@ -10,8 +12,10 @@ import { CircularProgress } from '@material-ui/core';
 
 import CoinbaseSVG from '../../assets/svgs/wallet/coinbase.svg?react'; //'../../assets/svgs/wallet/coinbase.svg?component';
 import MetaMaskSVG from '../../assets/svgs/wallet/metamask-color.svg?react';
-import WalletConnectSVG from '../../assets/svgs/wallet/wallet-connect.svg?react';
 import WalletReefBrowserSVG from '../../assets/svgs/wallet/reefwallet.svg?react';
+import WalletConnectSVG from '../../assets/svgs/wallet/wallet-connect.svg?react';
+import useConnectedWallet  from '../../hooks/useConnectedWallet';
+import useWcPreloader from '../../hooks/useWcPreloader';
 import { chain } from '../cosoul/chains';
 import { switchToCorrectChain } from '../web3/chainswitch';
 import { EConnectorNames } from 'config/constants';
@@ -19,16 +23,14 @@ import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
+import { connectWallet , getIpfsGatewayUrl} from 'utils/walletHelper';
 
 import { connectors } from './connectors';
 import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
-import { Components, hooks, ReefSigner } from '@reef-chain/react-lib';
-import useConnectedWallet  from '../../hooks/useConnectedWallet';
-import useWcPreloader from '../../hooks/useWcPreloader';
-import { extension as reefExt } from "@reef-chain/util-lib";
-import { connectWallet , getIpfsGatewayUrl} from 'utils/walletHelper';
+
+
 
 const UNSUPPORTED = 'unsupported';
 
@@ -147,24 +149,24 @@ export const WalletAuthModal = () => {
   useEffect(()=>{
     setAccounts(signers);
     setSelectedSigner(selectedReefSigner);
-    console.log({accounts})
+    console.log({accounts});
     // if account connected , hide preloader & set account address
     if(signers?.length && signers?.indexOf(selectedReefSigner!)==-1){
-      reefState.setSelectedAddress(signers[0].address)
+      reefState.setSelectedAddress(signers[0].address);
     }
     const newConnector = connectors[EConnectorNames.ReefWallet];
     web3Context.activate(newConnector, () => {}, true);
-  },[selectedReefSigner,signers])
+  },[selectedReefSigner,signers]);
 
   
 
   const isConnecting = !!connectMessage;
 
   const activate = async (connectorName: EConnectorNames) => {
-    console.log({connectorName})
+    console.log({connectorName});
     if(connectorName.includes('reef')) {
-      console.log('test' , reefExt.REEF_EXTENSION_IDENT)
-      setSelExtensionName(reefExt.REEF_EXTENSION_IDENT)
+      console.log('test' , reefExt.REEF_EXTENSION_IDENT);
+      setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
      
     } else {
       window.localStorage.removeItem(KEY_MAGIC_NETWORK);
@@ -319,7 +321,7 @@ export const WalletAuthModal = () => {
           )}
 
           {
-            !!!signers ? (
+            !signers ? (
               <>
               {
                 !selExtensionName ? (
@@ -365,7 +367,7 @@ export const WalletAuthModal = () => {
                       variant="wallet"
                       fullWidth
                       onClick={() => {
-                        onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)
+                        onExtensionSelected(reefExt.REEF_EXTENSION_IDENT);
                       }}
                     >
                       Reef Browser
@@ -378,7 +380,7 @@ export const WalletAuthModal = () => {
                       variant="wallet"
                       fullWidth
                       onClick={() => {
-                        onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT)
+                        onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT);
                       }}
                       
                     >

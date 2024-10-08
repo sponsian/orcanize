@@ -41,7 +41,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
 
   
   useEffect(() => {
-    console.log('testtt')
+    console.log('testtt');
     if (
       forceSign &&
       ['reuse', 'connect'].includes(authStep) &&
@@ -115,7 +115,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
             true
           );
         } catch (e) {
-          console.log('error2', e)
+          console.log('error2', e);
           setAuthStep('connect');
           if (showErrors) showError(e);
           web3Context.deactivate();

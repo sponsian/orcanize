@@ -16,6 +16,6 @@ export const AppRoutes = () => {
     loginRoute,
     ...(isCoLinksSite ? coLinksRoutes : [...coSoulRoutes, ...giveRoutes]),
   ];
-  console.log({routes})
+  console.log({routes});
   return <Routes>{routes}</Routes>;
 };
