@@ -135,7 +135,7 @@ export const NavLogo = ({
                             forceTheme == 'dark' ||
                             theme == 'party' ||
                             forceTheme == 'party'
-                          ? '/imgs/logo/coordinape-logo-grey1.png'
+                          ? '/imgs/logo/orcanize-white-on-black.png'
                           : '/imgs/logo/coordinape-logo-grey7.png'
                     }
                     alt="coordinape logo"

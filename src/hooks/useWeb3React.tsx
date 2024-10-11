@@ -54,6 +54,10 @@ export function useWeb3React<T = any>(
   const library = context.library || provider;
 
   const mounted = useRef(false);
+
+  
+
+
   useEffect(() => {
     mounted.current = true;
     return () => {
@@ -74,7 +78,7 @@ export function useWeb3React<T = any>(
   }, [library]);
 
   const address = context.account || storeAddress || signerAddress;
-
+  
   return {
     ...context,
     library,

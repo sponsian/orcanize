@@ -23,10 +23,14 @@ import { getAuthToken } from './token';
 import { useFinishAuth } from './useFinishAuth';
 import { useSavedAuth } from './useSavedAuth';
 import { WalletAuthModal } from './WalletAuthModal';
+import useConnectedWallet from 'hooks/useConnectedWallet';
+import { hooks } from '@reef-chain/react-lib';
+import { getIpfsGatewayUrl } from 'utils/walletHelper';
 
 // call this hook with showErrors = false if you want to re-establish an
 // existing login session where possible, and fail silently
 export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
+  const { selExtensionName, setSelExtensionName } = useConnectedWallet();
   const { savedAuth } = useSavedAuth();
   const web3Context = useWeb3React();
   const finishAuth = useFinishAuth();
@@ -37,16 +41,31 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   const isCoSoulPage = useIsCoSoulSite();
   const isCoPage = isCoSoulPage || isCoLinksPage;
   const magicNetwork = window.localStorage.getItem(KEY_MAGIC_NETWORK);
+  const {
+    loading,
+    error,
+    signers,
+    selectedReefSigner,
+    network,
+    provider,
+    reefState,
+    extension,
+  } = hooks.useInitReefStateExtension("lhichri app", selExtensionName, {
+    ipfsHashResolverFn: getIpfsGatewayUrl,
+  });
+
+  
+
 
 
   
   useEffect(() => {
     console.log('testtt');
-    if (
+    /*if (
       forceSign &&
       ['reuse', 'connect'].includes(authStep) &&
       web3Context.active
-    ) {
+    ) {*/
       setAuthStep('sign');
       finishAuth()
         .then(success => {
@@ -60,7 +79,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
           if (showErrors) console.error(e);
           web3Context.deactivate();
         });
-    }
+    //}
 
     // reset after logging out or signature error
     if (['sign', 'done'].includes(authStep) && !web3Context.active) {
@@ -122,7 +141,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
         }
       })();
     }
-  }, [savedAuth.connectorName, web3Context.active, isCoSoulPage]);
+  }, [savedAuth.connectorName, web3Context.active, isCoSoulPage, signers]);
 };
 
 export const RequireWeb3Auth = (props: { children: ReactNode }) => {
