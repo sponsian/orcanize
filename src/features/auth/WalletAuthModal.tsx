@@ -57,6 +57,7 @@ export const WalletAuthModal = () => {
   const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
     undefined,
   );
+  const [unsupportedNetwork, setUnsupportedNetwork] = useState<boolean>(false);
   const { loading: wcPreloader, setLoading: setWcPreloader } = useWcPreloader();
 
   const { showError, showDefault } = useToast();
@@ -66,6 +67,7 @@ export const WalletAuthModal = () => {
   const [explainerOpen, setExplainerOpen] = useState(false);
   const isCoLinksPage = useIsCoLinksSite();
   const isCoSoulPage = useIsCoSoulSite();
+  
   const isCoPage = isCoSoulPage || isCoLinksPage;
 
   const {
@@ -81,6 +83,15 @@ export const WalletAuthModal = () => {
     ipfsHashResolverFn: getIpfsGatewayUrl,
   });
 
+
+  useEffect(() => {
+    console.log({network})
+    if(network?.name === 'testnet') setUnsupportedNetwork(true);
+    if(network?.name === 'mainnet') setUnsupportedNetwork(false);
+
+    // ADD control for network here
+  }, [network])
+
   const mounted = useRef(false);
   /*useEffect(() => {
     mounted.current = true;
@@ -89,7 +100,7 @@ export const WalletAuthModal = () => {
     };
   }, []);*/
 
-  const unsupportedNetwork = selectedChain == UNSUPPORTED;
+  
 
   const updateChain = async (provider: Web3Provider) => {
     const chainId = (await provider.getNetwork()).chainId.toString();
@@ -132,6 +143,10 @@ export const WalletAuthModal = () => {
 
   const shortenAddress = (address: string, chars = 4): string => {
     return `${address.slice(0, chars)}...${address.slice(-chars)}`;
+  }
+
+  const switchToMainnet = () => {
+    console.log('switch network to mainnet')
   }
 
   
@@ -197,9 +212,9 @@ export const WalletAuthModal = () => {
           
           {unsupportedNetwork && (
             <Flex column css={{ gap: '$md' }}>
-              <Text variant="formError">Please switch to Optimism Mainnet</Text>
-              <Button color="cta" fullWidth onClick={safeSwitchToCorrectChain}>
-                Switch to Optimism
+              <Text variant="formError">Please switch to Reef Chain Mainnet</Text>
+              <Button color="cta" fullWidth onClick={switchToMainnet}>
+                Switch to Reef Chain Mainnet
               </Button>
             </Flex>
           )}
@@ -270,7 +285,20 @@ export const WalletAuthModal = () => {
                       
                     >
                       <Flex row css={{ justifyContent: 'center' }}>
-                         <Image src="./svgs/reef-account.svg"/>                   
+                      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+                        <path 
+                          fill="#5b5b5b" 
+                          d="M25 7L43 7L43 16ZM61 7L61 25L52 25ZM61 79L43 79L43 70ZM25 79L25 61L34 61ZM7 25L25 25L25 34ZM79 25L79 43L70 43ZM79 61L61 61L61 52ZM7 61L7 43L16 43Z">
+                        </path>
+                        <path 
+                          fill="#eaeaea" 
+                          d="M10 16a6,6 0 1,1 12,0a6,6 0 1,1 -12,0M64 16a6,6 0 1,1 12,0a6,6 0 1,1 -12,0M64 70a6,6 0 1,1 12,0a6,6 0 1,1 -12,0M10 70a6,6 0 1,1 12,0a6,6 0 1,1 -12,0">
+                        </path>
+                        <path 
+                          fill="#9d84d6" 
+                          d="M25 25L43 25L43 43L25 43ZM31.5 36.2a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0M61 25L61 43L43 43L43 25ZM45.2 36.2a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0M61 61L43 61L43 43L61 43ZM45.2 49.8a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0M25 61L25 43L43 43L43 61ZM31.5 49.8a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0">
+                        </path>
+                      </svg>                
                         <Flex column css={{ justifyContent: 'space-between' }}>
                           <Text size="small">{signer.name}</Text>
                           <Text size="small">Native address : {shortenAddress(signer.address)}</Text>
