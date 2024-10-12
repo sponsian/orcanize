@@ -149,6 +149,10 @@ export const WalletAuthModal = () => {
     console.log('switch network to mainnet')
   }
 
+  const selectAccount = () => {
+    console.log('select account')
+  }
+
   
 
   const inject = async () => {
@@ -279,11 +283,7 @@ export const WalletAuthModal = () => {
                     }}
                   >
                     {signers.map((signer) => ( 
-                      <Button
-                      variant="wallet"
-                      fullWidth
-                      
-                    >
+                      <Box css={{ width: '$full' }}>
                       <Flex row css={{ justifyContent: 'center' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
                         <path 
@@ -303,9 +303,14 @@ export const WalletAuthModal = () => {
                           <Text size="small">{signer.name}</Text>
                           <Text size="small">Native address : {shortenAddress(signer.address)}</Text>
                         </Flex>
+                        <Button
+                          variant="wallet"
+                          onClick={selectAccount}>
+                          Select
+                        </Button>
                       </Flex>
                       
-                    </Button>
+                    </Box>
                     ))}
                     
                     
