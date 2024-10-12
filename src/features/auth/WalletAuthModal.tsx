@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
-import { Components, hooks, ReefSigner } from '@reef-chain/react-lib';
+import { hooks, ReefSigner } from '@reef-chain/react-lib';
 
 import { extension as reefExt } from "@reef-chain/util-lib";
 import { loginSupportedChainIds } from 'common-lib/constants';
@@ -26,9 +26,9 @@ import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
 import { connectWallet , getIpfsGatewayUrl} from 'utils/walletHelper';
 
-import { connectors } from './connectors';
-import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
-import { WalletConnectV2Connector } from './walletconnectv2';
+
+import { getMagicProvider } from './magic';
+
 
 
 
@@ -51,7 +51,7 @@ export const WalletAuthModal = () => {
   const { selExtensionName, setSelExtensionName } = useConnectedWallet();
 
   const [connectMessage, setConnectMessage] = useState<string>('');
-  const [selectedChain, setSelectedChain] = useState<string>('1');
+
 
   const [accounts, setAccounts] = useState<ReefSigner[]>([]);
   const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
@@ -85,47 +85,24 @@ export const WalletAuthModal = () => {
 
 
   useEffect(() => {
-    console.log({network})
+    
     if(network?.name === 'testnet') setUnsupportedNetwork(true);
     if(network?.name === 'mainnet') setUnsupportedNetwork(false);
 
-    // ADD control for network here
+    
   }, [network])
 
   const mounted = useRef(false);
-  /*useEffect(() => {
+  useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
     };
-  }, []);*/
+  }, []);
 
   
 
-  const updateChain = async (provider: Web3Provider) => {
-    const chainId = (await provider.getNetwork()).chainId.toString();
-
-    // Only update state if component is still mounted
-    if (mounted.current) {
-      if (loginSupportedChainIds[chainId]) {
-        setSelectedChain(chainId);
-      } else {
-        setSelectedChain(UNSUPPORTED);
-      }
-    }
-  };
-
-  const safeSwitchToCorrectChain = async () => {
-    try {
-      const ethereum = (window as any).ethereum;
-      if (ethereum) {
-        const provider = new Web3Provider(ethereum, 'any');
-        await switchToCorrectChain(provider);
-      }
-    } catch (e: any) {
-      showError('Error Switching to ' + chain.chainName + ': ' + e.message);
-    }
-  };
+ 
 
  
 
