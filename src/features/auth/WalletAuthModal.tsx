@@ -98,7 +98,7 @@ export const WalletAuthModal = () => {
     
     if(network?.name === 'testnet') setUnsupportedNetwork(true);
     if(network?.name === 'mainnet') setUnsupportedNetwork(false);
-
+    console.log({network}) 
     
   }, [network])
 
@@ -126,7 +126,8 @@ export const WalletAuthModal = () => {
  
 
   
-  const switchToMainnet = (key: "mainnet" | "testnet") => { 
+  const switchToMainnet = (key: "mainnet" | "testnet") => {
+    
     setSelExtensionName(undefined);
     setSwitchingNetwork(false);
     const toSelect = appAvailableNetworks.find((item) => item.name === key);
@@ -190,59 +191,64 @@ export const WalletAuthModal = () => {
       }}
     >
       <Flex>
-        <Flex column css={{ gap: '$md', width: '$full', alignItems: 'center' }}>
+        <Flex 
+          column 
+          css={{ gap: '$md', width: '$full', alignItems: 'center' }}>
           <NavLogo />
-          <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
-            Connect Your Wallet
-          </Text>
+          <Text 
+            semibold 
+            css={{ justifyContent: 'center', width: '100%' }}>Connect Your Wallet</Text>
           <Text
             size="medium"
-            css={{
-              display: 'block',
-              textAlign: 'center',
-              width: '100%',
-            }}
-          >
-            New to Orcanize ? Connect to join.
-          </Text>
+            css={{ display: 'block', textAlign: 'center', width: '100%', }}>New to Orcanize ? Connect to join.</Text>
 
           {
-            !selExtensionName ? (
+            !selExtensionName && (
               <>
               {
                 !loading ? (
-                  <Box css={{ width: '$full' }}>
-                  <Flex
-                    column
-                    css={{
-                      width: '$full',
-                      gap: '$md',
-                    }}
-                  >
-                    <WalletButton onClick={() => onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)} icon={<WALLET_ICONS.reefwallet />} label="Reef Browser"/>
-                    <WalletButton onClick={() => onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT) } icon={< WALLET_ICONS.walletconnect/> } label="Wallet Connect"/>
-                  </Flex>
-                </Box>
+                  <Box 
+                    css={{ width: '$full' }}>
+                    <Flex
+                      column
+                      css={{ width: '$full', gap: '$md', }}>
+                      <WalletButton 
+                        onClick={() => onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)} 
+                        icon={<WALLET_ICONS.reefwallet />} 
+                        label="Reef Browser"/>
+                      <WalletButton 
+                        onClick={() => onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT) } 
+                        icon={< WALLET_ICONS.walletconnect/> } 
+                        label="Wallet Connect"/>
+                    </Flex>
+                  </Box>
                 ) : (
                   <LoadingState cancelConnection={() => setSelExtensionName(undefined)} />
                 )
               }
               </>
-            ) : (
-              unsupportedNetwork ?  (
-                <Flex column css={{ gap: '$md' }}>
-                  <Text variant="formError">Please switch to Reef Chain Mainnet</Text>
-                  <Button color="cta" fullWidth onClick={() => switchToMainnet('mainnet')}>
-                    Switch to Reef Chain Mainnet
-                  </Button>
-                </Flex>
-              ) : (
-                <AccountSelection 
-                  signers={signers}
-                  selectAccount={selectAccount}
-                  setSelExtensionName={() => setSelExtensionName(undefined)}/>
-              )
-              
+            ) 
+          }
+
+          {
+            selExtensionName && (
+                unsupportedNetwork ?  (
+                  <Flex 
+                    column 
+                    css={{ gap: '$md' }}>
+                      <Text 
+                        variant="formError">Please switch to Reef Chain Mainnet</Text>
+                      <Button 
+                        color="cta" 
+                        fullWidth 
+                        onClick={() => switchToMainnet('mainnet')}>Switch to Reef Chain Mainnet</Button>
+                  </Flex>
+                ) : (
+                  <AccountSelection 
+                    signers={signers}
+                    selectAccount={selectAccount}
+                    setSelExtensionName={() => setSelExtensionName(undefined)}/>
+                )
             )
           }
 
@@ -252,17 +258,12 @@ export const WalletAuthModal = () => {
             as="p"
             size="small"
             css={{ textAlign: 'center', width: '100%' }}
-          >
-            By connecting to Coordinape you agree
-            <br />
-            to our{' '}
-            <Link href={EXTERNAL_URL_TOS} inlineLink>
-              Terms of Service
-            </Link>
+          >By connecting to Coordinape you agree<br />to our{' '}
+            <Link 
+              href={EXTERNAL_URL_TOS} 
+              inlineLink>Terms of Service</Link>
           </Text>
           <HR />
-
-
         </Flex>
       </Flex>
     </Modal>
@@ -275,49 +276,54 @@ const Explainer = (props: { back: () => void; continue: () => void }) => {
       title="How Email Login Works"
       css={{ overflowY: 'auto', maxHeight: '80vh' }}
     >
-      <Text p as="p">
-        Because this is a Web3 application, it relies on an Ethereum (or EVM)
+      <Text 
+        p 
+        as="p">Because this is a Web3 application, it relies on an Ethereum (or EVM)
         wallet. When you log in with email, we will create a wallet for you,
         using a service called{' '}
-        <Link inlineLink href="https://magic.link/">
-          magic.link
-        </Link>
-        .
-      </Text>
-      <Text p as="p">
-        With this wallet, you can interact with the blockchain.
-      </Text>
-      <Text h2 p as="p" color="neutral">
-        How to Login
-      </Text>
-      <Text p as="p">
-        After entering your email address or choosing to use a Google account,
+        <Link 
+          inlineLink 
+          href="https://magic.link/">magic.link</Link>
+      .</Text>
+      <Text 
+        p 
+        as="p">With this wallet, you can interact with the blockchain.</Text>
+      <Text 
+        h2 
+        p  
+        as="p" 
+        color="neutral">How to Login</Text>
+      <Text 
+        p 
+        as="p">After entering your email address or choosing to use a Google account,
         you will see a &quot;Signature Request&quot;. Please click
         &quot;Sign&quot;, and this should open a new browser window with the
-        Magic.link signature request, which looks like this:
-      </Text>
-      <Box css={{ textAlign: 'center' }}>
+        Magic.link signature request, which looks like this:</Text>
+      <Box 
+        css={{ textAlign: 'center' }}>
         <Image
           src={EMAIL_LOGIN_EXAMPLE_URL}
           alt="Magic link signature request"
           css={{ maxHeight: '50vh', width: 'auto' }}
         />
       </Box>
-      <Text p as="p" css={{ mt: '$sm' }}>
-        For more information on wallets, web3, and best practices, please read{' '}
+      <Text 
+        p 
+        as="p" 
+        css={{ mt: '$sm' }}>For more information on wallets, web3, and best practices, please read{' '}
         <Link
           inlineLink
           href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
-        >
-          here
-        </Link>
-        .
-      </Text>
-      <Flex gap="sm" css={{ justifyContent: 'flex-end', mt: '$lg' }}>
-        <Button color="secondary" onClick={props.back}>
-          Cancel
-        </Button>
-        <Button onClick={props.continue}>Continue</Button>
+        >here</Link>
+      .</Text>
+      <Flex 
+        gap="sm" 
+        css={{ justifyContent: 'flex-end', mt: '$lg' }}>
+        <Button 
+          color="secondary" 
+          onClick={props.back}>Cancel</Button>
+        <Button 
+          onClick={props.continue}>Continue</Button>
       </Flex>
     </Modal>
   );
