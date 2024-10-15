@@ -4,6 +4,11 @@ import { connectWc } from "./walletConnect";
 export const getIpfsGatewayUrl = (hash: string): string =>
   `https://reef.infura-ipfs.io/ipfs/${hash}`;
 
+
+export const shortenAddress = (address: string, chars = 4): string => {
+  return `${address.slice(0, chars)}...${address.slice(-chars)}`;
+}
+
 export const connectWallet = async (
   ident: string,
   setSelExtensionName: any,
