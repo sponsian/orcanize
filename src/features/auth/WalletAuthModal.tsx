@@ -4,7 +4,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { hooks, ReefSigner } from '@reef-chain/react-lib';
 
 import { extension as reefExt } from "@reef-chain/util-lib";
-import { loginSupportedChainIds } from 'common-lib/constants';
+
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 import { NavLogo } from 'features/nav/NavLogo';
@@ -17,17 +17,18 @@ import WalletReefBrowserSVG from '../../assets/svgs/wallet/reefwallet.svg?react'
 import WalletConnectSVG from '../../assets/svgs/wallet/wallet-connect.svg?react';
 import useConnectedWallet  from '../../hooks/useConnectedWallet';
 import useWcPreloader from '../../hooks/useWcPreloader';
-import { chain } from '../cosoul/chains';
-import { switchToCorrectChain } from '../web3/chainswitch';
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
 import { connectWallet , getIpfsGatewayUrl} from 'utils/walletHelper';
+import { network as nw } from "@reef-chain/util-lib";
 
 
 import { getMagicProvider } from './magic';
+import LoadingState from 'components/LoadingState';
+import WalletButton from 'components/WalletButton';
 
 
 
@@ -65,6 +66,9 @@ export const WalletAuthModal = () => {
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
   const [explainerOpen, setExplainerOpen] = useState(false);
+  const [switchingNetwork, setSwitchingNetwork] = useState<boolean | undefined>(
+    true,
+  );
   const isCoLinksPage = useIsCoLinksSite();
   const isCoSoulPage = useIsCoSoulSite();
   
@@ -79,9 +83,14 @@ export const WalletAuthModal = () => {
     provider,
     reefState,
     extension,
-  } = hooks.useInitReefStateExtension("lhichri app", selExtensionName, {
+  } = hooks.useInitReefStateExtension("Orcanize", selExtensionName, {
     ipfsHashResolverFn: getIpfsGatewayUrl,
   });
+
+  const appAvailableNetworks = [
+    nw.AVAILABLE_NETWORKS.mainnet,
+    nw.AVAILABLE_NETWORKS.testnet,
+  ];
 
 
   useEffect(() => {
@@ -100,11 +109,6 @@ export const WalletAuthModal = () => {
     };
   }, []);
 
-  
-
- 
-
- 
 
   
   const isConnecting = !!connectMessage;
@@ -122,8 +126,21 @@ export const WalletAuthModal = () => {
     return `${address.slice(0, chars)}...${address.slice(-chars)}`;
   }
 
-  const switchToMainnet = () => {
-    console.log('switch network to mainnet')
+  
+  const switchToMainnet = (key: "mainnet" | "testnet") => { 
+    setSelExtensionName(undefined);
+    setSwitchingNetwork(false);
+    const toSelect = appAvailableNetworks.find((item) => item.name === key);
+    
+
+    if (toSelect && network.name !== toSelect.name) {
+      
+      
+      reefState.setSelectedNetwork(toSelect);
+      
+      setSwitchingNetwork(true);
+      setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
+    }
   }
 
   const selectAccount = () => {
@@ -190,14 +207,11 @@ export const WalletAuthModal = () => {
             New to Orcanize ? Connect to join.
           </Text>
 
-          
-          
-
           {
-            !signers ? (
+            !selExtensionName ? (
               <>
               {
-                !selExtensionName ? (
+                !loading ? (
                   <Box css={{ width: '$full' }}>
                   <Flex
                     column
@@ -206,40 +220,12 @@ export const WalletAuthModal = () => {
                       gap: '$md',
                     }}
                   >
-                    <Button
-                      variant="wallet"
-                      fullWidth
-                      onClick={() => {
-                        onExtensionSelected(reefExt.REEF_EXTENSION_IDENT);
-                      }}
-                    >
-                      Reef Browser
-                      <WALLET_ICONS.reefwallet />
-                    </Button>
-                    <Button
-                      variant="wallet"
-                      fullWidth
-                      onClick={() => {
-                        onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT);
-                      }}
-                      
-                    >
-                      Wallet Connect
-                      <WALLET_ICONS.walletconnect />
-                    </Button>
+                    <WalletButton onClick={() => onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)} icon={<WALLET_ICONS.reefwallet />} label="Reef Browser"/>
+                    <WalletButton onClick={() => onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT) } icon={< WALLET_ICONS.walletconnect/> } label="Wallet Connect"/>
                   </Flex>
                 </Box>
                 ) : (
-                  <Flex column css={{ justifyContent: 'center', width: '100%' }}>
-              <CircularProgress className='spinner-wallet-auth-modal' style={{ margin: 'auto', marginBottom: '2vh', marginTop: '2vh'}}/>
-              <Button
-                    onClick={() => {
-                      setSelExtensionName(undefined);
-                    }}
-                  >
-                    Cancel connection
-                  </Button>
-            </Flex>
+                  <LoadingState cancelConnection={() => setSelExtensionName(undefined)} />
                 )
               }
               </>
@@ -247,11 +233,12 @@ export const WalletAuthModal = () => {
               unsupportedNetwork ?  (
                 <Flex column css={{ gap: '$md' }}>
                   <Text variant="formError">Please switch to Reef Chain Mainnet</Text>
-                  <Button color="cta" fullWidth onClick={switchToMainnet}>
+                  <Button color="cta" fullWidth onClick={() => switchToMainnet('mainnet')}>
                     Switch to Reef Chain Mainnet
                   </Button>
                 </Flex>
-              ) : (<Box css={{ width: '$full' }}>
+              ) : (
+              <Box css={{ width: '$full' }}>
               <Flex
                   column
                   css={{
@@ -259,10 +246,10 @@ export const WalletAuthModal = () => {
                     gap: '$md',
                   }}
                 >
-                  {signers.map((signer) => ( 
+                  {!!signers && signers.map((signer) => ( 
                     <Box css={{ width: '$full' }}>
                     <Flex row css={{ justifyContent: 'center' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
                       <path 
                         fill="#5b5b5b" 
                         d="M25 7L43 7L43 16ZM61 7L61 25L52 25ZM61 79L43 79L43 70ZM25 79L25 61L34 61ZM7 25L25 25L25 34ZM79 25L79 43L70 43ZM79 61L61 61L61 52ZM7 61L7 43L16 43Z">
@@ -276,12 +263,13 @@ export const WalletAuthModal = () => {
                         d="M25 25L43 25L43 43L25 43ZM31.5 36.2a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0M61 25L61 43L43 43L43 25ZM45.2 36.2a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0M61 61L43 61L43 43L61 43ZM45.2 49.8a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0M25 61L25 43L43 43L43 61ZM31.5 49.8a4.7,4.7 0 1,0 9.4,0a4.7,4.7 0 1,0 -9.4,0">
                       </path>
                     </svg>                
-                      <Flex column css={{ justifyContent: 'space-between' }}>
-                        <Text size="small">{signer.name}</Text>
+                      <Flex column css={{ justifyContent: 'center', marginLeft: '0.5vw' }}>
+                        <Text size="small" css={{ marginBottom: '1vh' }}>{signer.name}</Text>
                         <Text size="small">Native address : {shortenAddress(signer.address)}</Text>
                       </Flex>
                       <Button
                         variant="wallet"
+                        css={{ justifyContent: 'center', marginTop: '2vh' }}
                         onClick={selectAccount}>
                         Select
                       </Button>
@@ -289,7 +277,14 @@ export const WalletAuthModal = () => {
                     
                   </Box>
                   ))}
-                  
+                  <Button
+                    css={{ justifyContent: 'center', margin: 'auto' }}
+                    variant="wallet"
+                    fullWidth
+                    onClick={() => setSelExtensionName(undefined)}
+                  >
+                    Switch Wallet
+                  </Button>
                   
                 </Flex>
             </Box>)
@@ -297,6 +292,8 @@ export const WalletAuthModal = () => {
             )
           }
          
+
+          
           <HR css={{ mb: '$sm' }} />
           <Text
             p
@@ -312,6 +309,8 @@ export const WalletAuthModal = () => {
             </Link>
           </Text>
           <HR />
+
+
         </Flex>
       </Flex>
     </Modal>
