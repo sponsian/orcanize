@@ -16,7 +16,7 @@ export PORT
 
 COVERAGE=$COVERAGE BROWSER=none $BIN/vite --port $PORT --strictPort & VITE_PID=$!
 until curl -s -o/dev/null http://localhost:$PORT; do
-  sleep 1
+  sleep 0.1
 done
 
 if [ "$COVERAGE" ]; then

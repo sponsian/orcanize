@@ -30,6 +30,7 @@ import { getMagicProvider } from './magic';
 import LoadingState from 'components/LoadingState';
 import WalletButton from 'components/WalletButton';
 import AccountSelection from 'components/AccountSelection';
+import UnsupportedNetwork from 'components/UnsupportedNetwork';
 
 
 
@@ -233,16 +234,8 @@ export const WalletAuthModal = () => {
           {
             selExtensionName && (
                 unsupportedNetwork ?  (
-                  <Flex 
-                    column 
-                    css={{ gap: '$md' }}>
-                      <Text 
-                        variant="formError">Please switch to Reef Chain Mainnet</Text>
-                      <Button 
-                        color="cta" 
-                        fullWidth 
-                        onClick={() => switchToMainnet('mainnet')}>Switch to Reef Chain Mainnet</Button>
-                  </Flex>
+                  <UnsupportedNetwork 
+                    switchToMainnet={() => switchToMainnet('mainnet')}/>
                 ) : (
                   <AccountSelection 
                     signers={signers}

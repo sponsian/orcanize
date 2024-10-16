@@ -141,7 +141,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
         }
       })();
     }
-  }, [savedAuth.connectorName, web3Context.active, isCoSoulPage, signers]);
+  }, [savedAuth.connectorName, web3Context.active, isCoSoulPage]);
 };
 
 export const RequireWeb3Auth = (props: { children: ReactNode }) => {
