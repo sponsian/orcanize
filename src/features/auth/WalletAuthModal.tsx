@@ -29,7 +29,7 @@ import { network as nw } from "@reef-chain/util-lib";
 import { getMagicProvider } from './magic';
 import LoadingState from 'components/LoadingState';
 import WalletButton from 'components/WalletButton';
-import AccountSelection from 'components/AccountSelection';
+import AccountSelector from 'components/AccountSelector';
 import UnsupportedNetwork from 'components/UnsupportedNetwork';
 
 
@@ -203,10 +203,7 @@ export const WalletAuthModal = () => {
             size="medium"
             css={{ display: 'block', textAlign: 'center', width: '100%', }}>New to Orcanize ? Connect to join.</Text>
 
-          {
-            !selExtensionName && (
-              <>
-              {
+          {!selExtensionName && (
                 !loading ? (
                   <Box 
                     css={{ width: '$full' }}>
@@ -226,18 +223,15 @@ export const WalletAuthModal = () => {
                 ) : (
                   <LoadingState cancelConnection={() => setSelExtensionName(undefined)} />
                 )
-              }
-              </>
             ) 
           }
 
-          {
-            selExtensionName && (
-                unsupportedNetwork ?  (
-                  <UnsupportedNetwork 
-                    switchToMainnet={() => switchToMainnet('mainnet')}/>
-                ) : (
-                  <AccountSelection 
+          {selExtensionName && (
+              unsupportedNetwork ?  (
+                <UnsupportedNetwork 
+                  switchToMainnet={() => switchToMainnet('mainnet')}/>
+              ) : (
+                  <AccountSelector 
                     signers={signers}
                     selectAccount={selectAccount}
                     setSelExtensionName={() => setSelExtensionName(undefined)}/>

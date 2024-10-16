@@ -4,13 +4,13 @@ import { ReefSigner } from '@reef-chain/react-lib';
 import AccountDisplay from './AccountDisplay';
 
 
-interface AccountSelectionProps {
+interface AccountSelectorProps {
     signers: ReefSigner[];
     selectAccount: () => void;
     setSelExtensionName: (name: string | undefined) => void
 }
 
-const AccountSelection: React.FC<AccountSelectionProps> = ({ signers, selectAccount, setSelExtensionName}) => {
+const AccountSelector: React.FC<AccountSelectorProps> = ({ signers, selectAccount, setSelExtensionName}) => {
     return (
         <Box 
             css={{ width: '$full'}}>
@@ -40,4 +40,4 @@ const AccountSelection: React.FC<AccountSelectionProps> = ({ signers, selectAcco
 }
 
 
-export default AccountSelection
+export default AccountSelector
