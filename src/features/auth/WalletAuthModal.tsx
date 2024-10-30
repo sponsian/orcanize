@@ -9,6 +9,12 @@ import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 import { NavLogo } from 'features/nav/NavLogo';
 
+import type { Signer as InjectedSigner } from "@polkadot/api/types";
+import {
+  SignerPayloadJSON,
+  SignerPayloadRaw,
+} from "@polkadot/types/types/extrinsic";
+
 
 
 import CoinbaseSVG from '../../assets/svgs/wallet/coinbase.svg?react'; //'../../assets/svgs/wallet/coinbase.svg?component';
@@ -49,6 +55,38 @@ const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.WalletLink]: CoinbaseSVG,
   [EConnectorNames.ReefWallet]: WalletReefBrowserSVG
 };
+const accountSourceSigners = new Map<string, InjectedSigner>();
+
+export class ReefSigningKeyWrapper implements InjectedSigner {
+  private sigKey: InjectedSigner | undefined;
+  constructor(signingKey?: InjectedSigner) {
+    this.sigKey = signingKey;
+  }
+
+  // @ts-ignore
+  signPayload(payload: SignerPayloadJSON) {
+    console.log("SIG PAYLOAD=", payload.method);
+
+    return this.sigKey?.signPayload
+      ? this.sigKey.signPayload(payload).then(
+          (res:any) => {
+            // console.log('SIGG DONE')
+            return res;
+          },
+          (rej:any) => {
+            // console.log('SIGG REJJJJ')
+            throw rej;
+          }
+        )
+      : Promise.reject("ReefSigningKeyWrapper - not implemented");
+  }
+
+  signRaw(raw: SignerPayloadRaw) {
+    return this.sigKey?.signRaw
+      ? this.sigKey.signRaw(raw)
+      : Promise.reject("ReefSigningKeyWrapper - not implemented");
+  }
+}
 
 export const WalletAuthModal = () => {
   const { selExtensionName, setSelExtensionName } = useConnectedWallet();
