@@ -6,7 +6,7 @@ import AccountDisplay from './AccountDisplay';
 
 interface AccountSelectorProps {
     signers: ReefSigner[];
-    selectAccount: () => void;
+    selectAccount: (accountAddress: string) => void;
     setSelExtensionName: (name: string | undefined) => void
 }
 
@@ -25,7 +25,7 @@ const AccountSelector: React.FC<AccountSelectorProps> = ({ signers, selectAccoun
                             css={{ justifyContent: 'center'}}>
                             <AccountDisplay 
                                 signer={signer} 
-                                selectAccount={selectAccount}/>
+                                selectAccount={() => selectAccount(signer.address)}/>
                         </Flex>
                     ))
                 }

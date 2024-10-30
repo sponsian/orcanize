@@ -73,8 +73,6 @@ export const getNavData = (profileId: number) =>
     { operationName: 'getNavData' }
   );
 
-  console.log({client: client.query})
-
 export const QUERY_KEY_NAV = 'Nav';
 
 // FIXME this is redundant with fetchManifest

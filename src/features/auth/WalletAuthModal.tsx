@@ -9,7 +9,7 @@ import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 import { NavLogo } from 'features/nav/NavLogo';
 
-import { CircularProgress } from '@material-ui/core';
+
 
 import CoinbaseSVG from '../../assets/svgs/wallet/coinbase.svg?react'; //'../../assets/svgs/wallet/coinbase.svg?component';
 import MetaMaskSVG from '../../assets/svgs/wallet/metamask-color.svg?react';
@@ -115,6 +115,19 @@ export const WalletAuthModal = () => {
   
   const isConnecting = !!connectMessage;
 
+  const walletAvailable: { key: string; label: string; icon: JSX.Element }[] = [
+   {
+    key: reefExt.REEF_EXTENSION_IDENT,
+    label: "Reef Browser",
+    icon: <WALLET_ICONS.reefwallet />
+   },
+   {
+    key: reefExt.REEF_WALLET_CONNECT_IDENT,
+    label: "Wallet Connect",
+    icon: < WALLET_ICONS.walletconnect/>
+   }
+  ]
+
 
   const onExtensionSelected = async (ident: string) => {
     if (ident === reefExt.REEF_WALLET_CONNECT_IDENT) {
@@ -144,8 +157,13 @@ export const WalletAuthModal = () => {
     }
   }
 
-  const selectAccount = () => {
-    console.log('select account')
+  const selectAccount = (accountAddress: string) => {
+    const account = signers.find(signer => signer.address === accountAddress)
+
+    if(account) reefState.setSelectedAddress(account.address);
+    
+
+    
   }
 
   
@@ -210,14 +228,17 @@ export const WalletAuthModal = () => {
                     <Flex
                       column
                       css={{ width: '$full', gap: '$md', }}>
-                      <WalletButton 
-                        onClick={() => onExtensionSelected(reefExt.REEF_EXTENSION_IDENT)} 
-                        icon={<WALLET_ICONS.reefwallet />} 
-                        label="Reef Browser"/>
-                      <WalletButton 
-                        onClick={() => onExtensionSelected(reefExt.REEF_WALLET_CONNECT_IDENT) } 
-                        icon={< WALLET_ICONS.walletconnect/> } 
-                        label="Wallet Connect"/>
+                      {
+                        walletAvailable.map((wallet) => (
+                          <WalletButton
+                            onClick={() => onExtensionSelected(wallet.key)}
+                            label={wallet.label}
+                            icon={wallet.icon} 
+                          />
+                        ))
+                      }
+                      
+                      
                     </Flex>
                   </Box>
                 ) : (
@@ -233,7 +254,7 @@ export const WalletAuthModal = () => {
               ) : (
                   <AccountSelector 
                     signers={signers}
-                    selectAccount={selectAccount}
+                    selectAccount={(accountAddress) => selectAccount(accountAddress)}
                     setSelExtensionName={() => setSelExtensionName(undefined)}/>
                 )
             )
