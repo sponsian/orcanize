@@ -266,67 +266,48 @@ export const WalletAuthModal = () => {
   }
 
   const selectAccount = async (accountAddress: string) => {
-    const account = signers.find(signer => signer.address === accountAddress)
 
-    if(account) reefState.setSelectedAddress(account.address);
+    const account = signers.find(signer => signer.address === accountAddress);
+
+    if(!account) return;
+
+    reefState.setSelectedAddress(account.address);
+
+    if(!provider) return;
     
+    try {
 
-    if(account) {
-      if(provider) {
-        const providerToUse = provider as unknown as Provider;
-        const signer = account.signer as unknown as InjectedSigner;
-        console.log({signer, providerToUse})
-        await reefExt.web3Enable(account.source)
-        const injector = await reefExt.web3FromSource(account.source);
-        console.log({injector})
-        const signRaw = injector?.signer?.signRaw;
-        console.log({signRaw})
-        if(!!signRaw) {
-          const message = "custom message";
+      const source = account.source
+      await reefExt.web3Enable(source);
+      const injector = await reefExt.web3FromSource(source)
 
-    // after making sure that signRaw is defined
-    // we can use it to sign our message
-    const { signature } = await signRaw({
+      const signRaw = injector?.signer?.signRaw
+
+      if(!signRaw) return;
+
+      const message = "custom message connection !"
+
+      const result = await signRaw({
         address: account.address,
         data: message,
-        type: 'bytes'
-    });
+        type: "payload"
+      })
 
-    console.log({signature})
-    const isValidSignature = (signedMessage: any, signature: any, address: any) => {
-      const publicKey = decodeAddress(address);
-      const hexPublicKey = u8aToHex(publicKey);
+    } catch(err) {
 
-      return signatureVerify(signedMessage, signature, hexPublicKey).isValid;
-    };
+      console.error("Error during account selection and signing: ", error);
 
-    
-
-    // `signRaw` method wraps the message with `<Bytes>` tag before signing
-    const isValid = isValidSignature(
-      message,
-      signature,
-      account.address
-    );
-    console.log(isValid)
-    
-        }
-        //const x =  new ReefSigningKeyWrapper(signer);
-        /*const addressToSign = await getAccountSigner(account.address,providerToUse, signer)
-        console.log({addressToSign})
-        if(addressToSign) {
-          const x = new ReefSigningKeyWrapper(addressToSign?.signingKey.sigKey)
-          console.log({x})
-           x.signRaw({address: account.address, data:'sign message', type:'payload'})
-        }  */
-        
-        //await addressToSign.signingKey.signRaw({address: account.address, data:'sign message', type:'payload'})
-        //x.signRaw({address: account.address, data:'sign message', type:'payload'})
-      }
-      
     }
 
-    
+  }
+
+  const isValidSignature = (signedMessage: string, signature: string, address: string) => {
+
+    const publicKey = decodeAddress(address);
+    const hexPublicKey = u8aToHex(publicKey)
+
+    return signatureVerify(signedMessage, signature, hexPublicKey)
+
   }
 
   
