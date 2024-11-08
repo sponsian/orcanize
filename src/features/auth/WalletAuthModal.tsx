@@ -3,7 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { hooks, ReefSigner } from '@reef-chain/react-lib';
 
+import { stringToHex, u8aToHex } from "@polkadot/util";
 import { extension as reefExt } from "@reef-chain/util-lib";
+import { Provider, Signer } from "@reef-chain/evm-provider"
+import { cryptoWaitReady, decodeAddress, signatureVerify } from '@polkadot/util-crypto';
 
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
@@ -37,6 +40,11 @@ import LoadingState from 'components/LoadingState';
 import WalletButton from 'components/WalletButton';
 import AccountSelector from 'components/AccountSelector';
 import UnsupportedNetwork from 'components/UnsupportedNetwork';
+import { Deferrable } from '@ethersproject/properties';
+import {
+  TransactionRequest,
+  TransactionResponse,
+} from "@ethersproject/abstract-provider";
 
 
 
@@ -56,11 +64,73 @@ const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.ReefWallet]: WalletReefBrowserSVG
 };
 const accountSourceSigners = new Map<string, InjectedSigner>();
+const addressSigners = new Map<string, Signer | undefined>();
 
+const getAccountInjectedSigner = async (
+  source: string = reefExt.REEF_EXTENSION_IDENT
+): Promise<InjectedSigner | undefined> => {
+  if (!accountSourceSigners.has(source)) {
+    await reefExt.web3Enable(source)
+    const signer = await reefExt.web3FromSource(source)
+      .then((injected: any) => injected?.signer)
+      .catch((err : any) => console.error("getAccountSigner error =", err));
+    if (!signer) {
+      console.warn("Can not get signer for source=" + source);
+    }
+    if (signer) {
+      accountSourceSigners.set(source, signer);
+    }
+  }
+  return accountSourceSigners.get(source)!;
+};
+
+export const getAccountSigner = async (
+  address: string,
+  provider: Provider,
+  // source?: string,
+  injSignerOrSource?: InjectedSigner | string
+): Promise<Signer | undefined> => {
+  let signingKey: InjectedSigner | undefined =
+    injSignerOrSource as InjectedSigner;
+    console.log({injSignerOrSource})
+  
+    //signingKey = await getAccountInjectedSigner('reef');
+ 
+  //console.log({signingKey})
+  if (!addressSigners.has(address)) {
+    addressSigners.set(
+      address,
+      signingKey
+        ? new ReefSignerWrapper(
+            provider,
+            address,
+            // @ts-ignore
+            new ReefSigningKeyWrapper(signingKey)
+          )
+        : undefined
+    );
+        
+    //addressSigners.signingKey.signRaw({address: account.address, data:'sign message', type:'payload'})
+  }
+  return addressSigners.get(address);
+};
+
+export class ReefSignerWrapper extends Signer {
+  constructor(provider: Provider, address: string, signingKey: InjectedSigner) {
+    super(provider, address, signingKey as any);
+  }
+
+  sendTransaction(
+    _transaction: Deferrable<TransactionRequest>
+  ): Promise<TransactionResponse> {
+    return super.sendTransaction(_transaction);
+  }
+}
 export class ReefSigningKeyWrapper implements InjectedSigner {
   private sigKey: InjectedSigner | undefined;
   constructor(signingKey?: InjectedSigner) {
     this.sigKey = signingKey;
+    
   }
 
   // @ts-ignore
@@ -195,11 +265,66 @@ export const WalletAuthModal = () => {
     }
   }
 
-  const selectAccount = (accountAddress: string) => {
+  const selectAccount = async (accountAddress: string) => {
     const account = signers.find(signer => signer.address === accountAddress)
 
     if(account) reefState.setSelectedAddress(account.address);
     
+
+    if(account) {
+      if(provider) {
+        const providerToUse = provider as unknown as Provider;
+        const signer = account.signer as unknown as InjectedSigner;
+        console.log({signer, providerToUse})
+        await reefExt.web3Enable(account.source)
+        const injector = await reefExt.web3FromSource(account.source);
+        console.log({injector})
+        const signRaw = injector?.signer?.signRaw;
+        console.log({signRaw})
+        if(!!signRaw) {
+          const message = "custom message";
+
+    // after making sure that signRaw is defined
+    // we can use it to sign our message
+    const { signature } = await signRaw({
+        address: account.address,
+        data: message,
+        type: 'bytes'
+    });
+
+    console.log({signature})
+    const isValidSignature = (signedMessage: any, signature: any, address: any) => {
+      const publicKey = decodeAddress(address);
+      const hexPublicKey = u8aToHex(publicKey);
+
+      return signatureVerify(signedMessage, signature, hexPublicKey).isValid;
+    };
+
+    
+
+    // `signRaw` method wraps the message with `<Bytes>` tag before signing
+    const isValid = isValidSignature(
+      message,
+      signature,
+      account.address
+    );
+    console.log(isValid)
+    
+        }
+        //const x =  new ReefSigningKeyWrapper(signer);
+        /*const addressToSign = await getAccountSigner(account.address,providerToUse, signer)
+        console.log({addressToSign})
+        if(addressToSign) {
+          const x = new ReefSigningKeyWrapper(addressToSign?.signingKey.sigKey)
+          console.log({x})
+           x.signRaw({address: account.address, data:'sign message', type:'payload'})
+        }  */
+        
+        //await addressToSign.signingKey.signRaw({address: account.address, data:'sign message', type:'payload'})
+        //x.signRaw({address: account.address, data:'sign message', type:'payload'})
+      }
+      
+    }
 
     
   }
