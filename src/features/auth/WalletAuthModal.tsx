@@ -3,54 +3,33 @@ import { useEffect, useRef, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { hooks, ReefSigner } from '@reef-chain/react-lib';
 
-import { stringToHex, u8aToHex } from "@polkadot/util";
-import { extension as reefExt } from "@reef-chain/util-lib";
-import { Provider, Signer } from "@reef-chain/evm-provider"
-import { cryptoWaitReady, decodeAddress, signatureVerify } from '@polkadot/util-crypto';
+import { stringToHex, u8aToHex } from '@polkadot/util';
+import { extension as reefExt } from '@reef-chain/util-lib';
+import { decodeAddress, signatureVerify } from '@polkadot/util-crypto';
 
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 import { NavLogo } from 'features/nav/NavLogo';
 
-import type { Signer as InjectedSigner } from "@polkadot/api/types";
-import {
-  SignerPayloadJSON,
-  SignerPayloadRaw,
-} from "@polkadot/types/types/extrinsic";
-
-
-
 import CoinbaseSVG from '../../assets/svgs/wallet/coinbase.svg?react'; //'../../assets/svgs/wallet/coinbase.svg?component';
 import MetaMaskSVG from '../../assets/svgs/wallet/metamask-color.svg?react';
 import WalletReefBrowserSVG from '../../assets/svgs/wallet/reefwallet.svg?react';
 import WalletConnectSVG from '../../assets/svgs/wallet/wallet-connect.svg?react';
-import useConnectedWallet  from '../../hooks/useConnectedWallet';
+import useConnectedWallet from '../../hooks/useConnectedWallet';
 import useWcPreloader from '../../hooks/useWcPreloader';
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
-import { connectWallet , getIpfsGatewayUrl} from 'utils/walletHelper';
-import { network as nw } from "@reef-chain/util-lib";
-
+import { connectWallet, getIpfsGatewayUrl } from 'utils/walletHelper';
+import { network as nw } from '@reef-chain/util-lib';
 
 import { getMagicProvider } from './magic';
 import LoadingState from 'components/LoadingState';
 import WalletButton from 'components/WalletButton';
 import AccountSelector from 'components/AccountSelector';
 import UnsupportedNetwork from 'components/UnsupportedNetwork';
-import { Deferrable } from '@ethersproject/properties';
-import {
-  TransactionRequest,
-  TransactionResponse,
-} from "@ethersproject/abstract-provider";
-
-
-
-
-
-const UNSUPPORTED = 'unsupported';
 
 const EMAIL_LOGIN_EXAMPLE_URL =
   'https://coordinape-prod.s3.amazonaws.com/assets/static/images/magic-link-example.png';
@@ -61,7 +40,7 @@ const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.Injected]: MetaMaskSVG,
   [EConnectorNames.WalletConnect]: WalletConnectSVG,
   [EConnectorNames.WalletLink]: CoinbaseSVG,
-  [EConnectorNames.ReefWallet]: WalletReefBrowserSVG
+  [EConnectorNames.ReefWallet]: WalletReefBrowserSVG,
 };
 
 export const WalletAuthModal = () => {
@@ -69,11 +48,11 @@ export const WalletAuthModal = () => {
 
   const [connectMessage, setConnectMessage] = useState<string>('');
 
-
   const [accounts, setAccounts] = useState<ReefSigner[]>([]);
   const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
-    undefined,
+    undefined
   );
+  const [errorSignMessage, setErrorSignMessage] = useState<boolean>(false);
   const [unsupportedNetwork, setUnsupportedNetwork] = useState<boolean>(false);
   const { loading: wcPreloader, setLoading: setWcPreloader } = useWcPreloader();
 
@@ -81,13 +60,12 @@ export const WalletAuthModal = () => {
   const web3Context = useWeb3React<Web3Provider>();
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
-  const [explainerOpen, setExplainerOpen] = useState(false);
   const [switchingNetwork, setSwitchingNetwork] = useState<boolean | undefined>(
-    true,
+    true
   );
   const isCoLinksPage = useIsCoLinksSite();
   const isCoSoulPage = useIsCoSoulSite();
-  
+
   const isCoPage = isCoSoulPage || isCoLinksPage;
 
   const {
@@ -99,7 +77,7 @@ export const WalletAuthModal = () => {
     provider,
     reefState,
     extension,
-  } = hooks.useInitReefStateExtension("Orcanize", selExtensionName, {
+  } = hooks.useInitReefStateExtension('Orcanize', selExtensionName, {
     ipfsHashResolverFn: getIpfsGatewayUrl,
   });
 
@@ -108,14 +86,11 @@ export const WalletAuthModal = () => {
     nw.AVAILABLE_NETWORKS.testnet,
   ];
 
-
   useEffect(() => {
-    
-    if(network?.name === 'testnet') setUnsupportedNetwork(true);
-    if(network?.name === 'mainnet') setUnsupportedNetwork(false);
-    console.log({network}) 
-    
-  }, [network])
+    if (network?.name === 'testnet') setUnsupportedNetwork(true);
+    if (network?.name === 'mainnet') setUnsupportedNetwork(false);
+    console.log({ network });
+  }, [network]);
 
   const mounted = useRef(false);
   useEffect(() => {
@@ -125,23 +100,20 @@ export const WalletAuthModal = () => {
     };
   }, []);
 
-
-  
   const isConnecting = !!connectMessage;
 
   const walletAvailable: { key: string; label: string; icon: JSX.Element }[] = [
-   {
-    key: reefExt.REEF_EXTENSION_IDENT,
-    label: "Reef Browser",
-    icon: <WALLET_ICONS.reefwallet />
-   },
-   {
-    key: reefExt.REEF_WALLET_CONNECT_IDENT,
-    label: "Wallet Connect",
-    icon: < WALLET_ICONS.walletconnect/>
-   }
-  ]
-
+    {
+      key: reefExt.REEF_EXTENSION_IDENT,
+      label: 'Reef Browser',
+      icon: <WALLET_ICONS.reefwallet />,
+    },
+    {
+      key: reefExt.REEF_WALLET_CONNECT_IDENT,
+      label: 'Wallet Connect',
+      icon: <WALLET_ICONS.walletconnect />,
+    },
+  ];
 
   const onExtensionSelected = async (ident: string) => {
     if (ident === reefExt.REEF_WALLET_CONNECT_IDENT) {
@@ -151,72 +123,62 @@ export const WalletAuthModal = () => {
     }
   };
 
- 
-
-  
-  const switchToMainnet = (key: "mainnet" | "testnet") => {
-    
+  const switchToMainnet = (key: 'mainnet' | 'testnet') => {
     setSelExtensionName(undefined);
     setSwitchingNetwork(false);
-    const toSelect = appAvailableNetworks.find((item) => item.name === key);
-    
+    const toSelect = appAvailableNetworks.find(item => item.name === key);
 
     if (toSelect && network.name !== toSelect.name) {
-      
-      
       reefState.setSelectedNetwork(toSelect);
-      
+
       setSwitchingNetwork(true);
       setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
     }
-  }
+  };
 
   const selectAccount = async (accountAddress: string) => {
-
     const account = signers.find(signer => signer.address === accountAddress);
 
-    if(!account) return;
+    if (!account) return;
 
     reefState.setSelectedAddress(account.address);
 
-    if(!provider) return;
-    
+    if (!provider) return;
+
     try {
-
-      const source = account.source
+      const source = account.source;
       await reefExt.web3Enable(source);
-      const injector = await reefExt.web3FromSource(source)
+      const injector = await reefExt.web3FromSource(source);
 
-      const signRaw = injector?.signer?.signRaw
+      const signRaw = injector?.signer?.signRaw;
 
-      if(!signRaw) return;
+      if (!signRaw) return;
 
-      const message = "custom message connection !"
+      const message = 'custom message connection !';
 
       const result = await signRaw({
         address: account.address,
         data: message,
-        type: "payload"
-      })
+        type: 'payload',
+      });
 
-    } catch(err) {
-
-      console.error("Error during account selection and signing: ", error);
-
+      console.log({ result });
+    } catch (err) {
+      setErrorSignMessage(true);
+      console.error('Error during account selection and signing: ', error);
     }
+  };
 
-  }
-
-  const isValidSignature = (signedMessage: string, signature: string, address: string) => {
-
+  const isValidSignature = (
+    signedMessage: string,
+    signature: string,
+    address: string
+  ) => {
     const publicKey = decodeAddress(address);
-    const hexPublicKey = u8aToHex(publicKey)
+    const hexPublicKey = u8aToHex(publicKey);
 
-    return signatureVerify(signedMessage, signature, hexPublicKey)
-
-  }
-
-  
+    return signatureVerify(signedMessage, signature, hexPublicKey);
+  };
 
   const inject = async () => {
     try {
@@ -234,22 +196,6 @@ export const WalletAuthModal = () => {
     }
   };
 
-
-  if (explainerOpen)
-    return (
-      <Explainer
-        back={() => {
-          setExplainerOpen(false);
-          setModalOpen(true);
-        }}
-        continue={() => {
-          localStorage.setItem(HIDE_EXPLAINER_KEY, 'true');
-          setExplainerOpen(false);
-          inject();
-        }}
-      />
-    );
-
   return (
     <Modal
       showClose={isConnecting}
@@ -260,55 +206,54 @@ export const WalletAuthModal = () => {
       }}
     >
       <Flex>
-        <Flex 
-          column 
-          css={{ gap: '$md', width: '$full', alignItems: 'center' }}>
+        <Flex column css={{ gap: '$md', width: '$full', alignItems: 'center' }}>
           <NavLogo />
-          <Text 
-            semibold 
-            css={{ justifyContent: 'center', width: '100%' }}>Connect Your Wallet</Text>
+          <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
+            Connect Your Wallet
+          </Text>
           <Text
             size="medium"
-            css={{ display: 'block', textAlign: 'center', width: '100%', }}>New to Orcanize ? Connect to join.</Text>
+            css={{ display: 'block', textAlign: 'center', width: '100%' }}
+          >
+            New to Orcanize ? Connect to join.
+          </Text>
 
-          {!selExtensionName && (
-                !loading ? (
-                  <Box 
-                    css={{ width: '$full' }}>
-                    <Flex
-                      column
-                      css={{ width: '$full', gap: '$md', }}>
-                      {
-                        walletAvailable.map((wallet) => (
-                          <WalletButton
-                            onClick={() => onExtensionSelected(wallet.key)}
-                            label={wallet.label}
-                            icon={wallet.icon} 
-                          />
-                        ))
-                      }
-                      
-                      
-                    </Flex>
-                  </Box>
-                ) : (
-                  <LoadingState cancelConnection={() => setSelExtensionName(undefined)} />
-                )
-            ) 
-          }
-
-          {selExtensionName && (
-              unsupportedNetwork ?  (
-                <UnsupportedNetwork 
-                  switchToMainnet={() => switchToMainnet('mainnet')}/>
+          {!selExtensionName &&
+            (!loading ? (
+              errorSignMessage ? (
+                <p>You need to sign</p>
               ) : (
-                  <AccountSelector 
-                    signers={signers}
-                    selectAccount={(accountAddress) => selectAccount(accountAddress)}
-                    setSelExtensionName={() => setSelExtensionName(undefined)}/>
-                )
-            )
-          }
+                <Box css={{ width: '$full' }}>
+                  <Flex column css={{ width: '$full', gap: '$md' }}>
+                    {walletAvailable.map(wallet => (
+                      <WalletButton
+                        key={wallet.key}
+                        onClick={() => onExtensionSelected(wallet.key)}
+                        label={wallet.label}
+                        icon={wallet.icon}
+                      />
+                    ))}
+                  </Flex>
+                </Box>
+              )
+            ) : (
+              <LoadingState
+                cancelConnection={() => setSelExtensionName(undefined)}
+              />
+            ))}
+
+          {selExtensionName &&
+            (unsupportedNetwork ? (
+              <UnsupportedNetwork
+                switchToMainnet={() => switchToMainnet('mainnet')}
+              />
+            ) : (
+              <AccountSelector
+                signers={signers}
+                selectAccount={accountAddress => selectAccount(accountAddress)}
+                setSelExtensionName={() => setSelExtensionName(undefined)}
+              />
+            ))}
 
           <HR css={{ mb: '$sm' }} />
           <Text
@@ -316,72 +261,16 @@ export const WalletAuthModal = () => {
             as="p"
             size="small"
             css={{ textAlign: 'center', width: '100%' }}
-          >By connecting to Coordinape you agree<br />to our{' '}
-            <Link 
-              href={EXTERNAL_URL_TOS} 
-              inlineLink>Terms of Service</Link>
+          >
+            By connecting to Coordinape you agree
+            <br />
+            to our{' '}
+            <Link href={EXTERNAL_URL_TOS} inlineLink>
+              Terms of Service
+            </Link>
           </Text>
           <HR />
         </Flex>
-      </Flex>
-    </Modal>
-  );
-};
-
-const Explainer = (props: { back: () => void; continue: () => void }) => {
-  return (
-    <Modal
-      title="How Email Login Works"
-      css={{ overflowY: 'auto', maxHeight: '80vh' }}
-    >
-      <Text 
-        p 
-        as="p">Because this is a Web3 application, it relies on an Ethereum (or EVM)
-        wallet. When you log in with email, we will create a wallet for you,
-        using a service called{' '}
-        <Link 
-          inlineLink 
-          href="https://magic.link/">magic.link</Link>
-      .</Text>
-      <Text 
-        p 
-        as="p">With this wallet, you can interact with the blockchain.</Text>
-      <Text 
-        h2 
-        p  
-        as="p" 
-        color="neutral">How to Login</Text>
-      <Text 
-        p 
-        as="p">After entering your email address or choosing to use a Google account,
-        you will see a &quot;Signature Request&quot;. Please click
-        &quot;Sign&quot;, and this should open a new browser window with the
-        Magic.link signature request, which looks like this:</Text>
-      <Box 
-        css={{ textAlign: 'center' }}>
-        <Image
-          src={EMAIL_LOGIN_EXAMPLE_URL}
-          alt="Magic link signature request"
-          css={{ maxHeight: '50vh', width: 'auto' }}
-        />
-      </Box>
-      <Text 
-        p 
-        as="p" 
-        css={{ mt: '$sm' }}>For more information on wallets, web3, and best practices, please read{' '}
-        <Link
-          inlineLink
-          href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
-        >here</Link>
-      .</Text>
-      <Flex 
-        gap="sm" 
-        css={{ justifyContent: 'flex-end', mt: '$lg' }}>
-        <Button 
-          color="secondary" 
-          onClick={props.back}>Cancel</Button>
-        <Button 
-          onClick={props.continue}>Continue</Button>
       </Flex>
     </Modal>
   );

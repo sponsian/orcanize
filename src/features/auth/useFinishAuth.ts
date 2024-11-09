@@ -37,7 +37,7 @@ export const useFinishAuth = () => {
         ? findConnectorName(connector)
         : providerType;
       assert(connectorName);
-
+      console.log('heree');
       const savedAuth = getAndUpdate(address);
       logger.log('found saved auth data:', savedAuth);
       let profileId = savedAuth.id;
@@ -96,8 +96,8 @@ export const useFinishAuth = () => {
         setTimeout(() =>
           fetchManifest(profileId)
             .then(() => res(true))
-            .catch((err) => {
-              console.log({err})              
+            .catch(err => {
+              console.log({ err });
               // we had a cached token & it's invalid, so log out
               // FIXME don't logout if request timed out
               logout();
