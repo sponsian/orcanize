@@ -155,8 +155,10 @@ export const WalletAuthModal = () => {
 
       if (!signRaw) return;
 
-      const message = 'custom message connection !';
-
+      const accountName = account.name || account.address;
+      const appName = 'Orcanize';
+      const message = `Please sign the message to complete your connection with ${appName}. Account : ${accountName}`;
+      const errorMessage = `To complete the connection with ${appName}, please sign the message.`;
       signRaw({
         address: account.address,
         data: message,
@@ -164,7 +166,7 @@ export const WalletAuthModal = () => {
       })
         .then(result => console.log({ result }))
         .catch(err =>
-          toast.warning('Please sign the message to connect', {
+          toast.warning(errorMessage, {
             position: toast.POSITION.TOP_RIGHT,
             bodyStyle: {
               color: 'white',
