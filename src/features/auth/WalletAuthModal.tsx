@@ -6,6 +6,7 @@ import { hooks, ReefSigner } from '@reef-chain/react-lib';
 import { stringToHex, u8aToHex } from '@polkadot/util';
 import { extension as reefExt } from '@reef-chain/util-lib';
 import { decodeAddress, signatureVerify } from '@polkadot/util-crypto';
+import { toast } from 'react-toastify';
 
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
@@ -52,7 +53,7 @@ export const WalletAuthModal = () => {
   const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
     undefined
   );
-  const [errorSignMessage, setErrorSignMessage] = useState<boolean>(false);
+
   const [unsupportedNetwork, setUnsupportedNetwork] = useState<boolean>(false);
   const { loading: wcPreloader, setLoading: setWcPreloader } = useWcPreloader();
 
@@ -156,16 +157,22 @@ export const WalletAuthModal = () => {
 
       const message = 'custom message connection !';
 
-      const result = await signRaw({
+      signRaw({
         address: account.address,
         data: message,
         type: 'payload',
-      });
-
-      console.log({ result });
+      })
+        .then(result => console.log({ result }))
+        .catch(err =>
+          toast.warning('Please sign the message to connect', {
+            position: toast.POSITION.TOP_RIGHT,
+            bodyStyle: {
+              color: 'white',
+            },
+          })
+        );
     } catch (err) {
-      setErrorSignMessage(true);
-      console.error('Error during account selection and signing: ', error);
+      console.error('Error during account selection and signing: ', err);
     }
   };
 
@@ -220,22 +227,18 @@ export const WalletAuthModal = () => {
 
           {!selExtensionName &&
             (!loading ? (
-              errorSignMessage ? (
-                <p>You need to sign</p>
-              ) : (
-                <Box css={{ width: '$full' }}>
-                  <Flex column css={{ width: '$full', gap: '$md' }}>
-                    {walletAvailable.map(wallet => (
-                      <WalletButton
-                        key={wallet.key}
-                        onClick={() => onExtensionSelected(wallet.key)}
-                        label={wallet.label}
-                        icon={wallet.icon}
-                      />
-                    ))}
-                  </Flex>
-                </Box>
-              )
+              <Box css={{ width: '$full' }}>
+                <Flex column css={{ width: '$full', gap: '$md' }}>
+                  {walletAvailable.map(wallet => (
+                    <WalletButton
+                      key={wallet.key}
+                      onClick={() => onExtensionSelected(wallet.key)}
+                      label={wallet.label}
+                      icon={wallet.icon}
+                    />
+                  ))}
+                </Flex>
+              </Box>
             ) : (
               <LoadingState
                 cancelConnection={() => setSelExtensionName(undefined)}
