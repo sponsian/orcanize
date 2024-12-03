@@ -33,70 +33,12 @@ initAnalytics();
 
 function App() {
   globalStyles();
-  const isCoLinks = useIsCoLinksSite();
-  const { selExtensionName, setSelExtensionName } = useConnectedWallet();
-  const [accounts, setAccounts] = useState<ReefSigner[]>([]);
-  const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
-    undefined
-  );
-  const [switchingNetwork, setSwitchingNetwork] = useState<boolean | undefined>(
-    true
-  );
+
   const [isNetworkSwitching, setNetworkSwitching] = useState(false);
 
-  const {
-    loading,
-    error,
-    signers,
-    selectedReefSigner,
-    network,
-    provider,
-    reefState,
-    extension,
-  } = hooks.useInitReefStateExtension('Orcanize', selExtensionName, {
-    ipfsHashResolverFn: getIpfsGatewayUrl,
-  });
-  const appAvailableNetworks = [
-    nw.AVAILABLE_NETWORKS.mainnet,
-    nw.AVAILABLE_NETWORKS.testnet,
-  ];
   const networkSwitch = {
     isSwitching: isNetworkSwitching,
     setSwitching: (value: boolean) => setSwitching(value, setNetworkSwitching),
-  };
-
-  useEffect(() => {
-    if (error?.code === 1) setSelExtensionName(undefined);
-  }, [error]);
-  useEffect(() => {
-    setAccounts([]);
-    setSelectedSigner(undefined);
-  }, [selExtensionName]);
-  useEffect(() => {
-    setAccounts(signers);
-    setSelectedSigner(selectedReefSigner);
-    reefState.setAccounts(signers);
-
-    if (signers?.length && signers?.indexOf(selectedReefSigner!) == -1) {
-      reefState.setSelectedAddress(signers[0].address);
-    }
-  }, [selectedReefSigner, signers]);
-
-  const onExtensionSelected = () => {
-    setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
-  };
-
-  const switchNetwork = (key: 'mainnet' | 'testnet') => {
-    setSelExtensionName(undefined);
-    setSwitchingNetwork(false);
-    const toSelect = appAvailableNetworks.find(item => item.name === key);
-
-    if (toSelect && network.name !== toSelect.name) {
-      reefState.setSelectedNetwork(toSelect);
-
-      setSwitchingNetwork(true);
-      setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
-    }
   };
 
   return (

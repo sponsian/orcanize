@@ -226,27 +226,32 @@ export const WalletAuthModal = () => {
           >
             New to Orcanize ? Connect to join.
           </Text>
-
-          {!selExtensionName &&
-            (!loading ? (
-              <Box css={{ width: '$full' }}>
-                <Flex column css={{ width: '$full', gap: '$md' }}>
-                  {walletAvailable.map(wallet => (
-                    <WalletButton
-                      key={wallet.key}
-                      onClick={() => onExtensionSelected(wallet.key)}
-                      label={wallet.label}
-                      icon={wallet.icon}
-                    />
-                  ))}
-                </Flex>
-              </Box>
+          {/* 
+            {(!selExtensionName && loading) &&
+            (! ? (
+              
             ) : (
               <LoadingState
                 cancelConnection={() => setSelExtensionName(undefined)}
               />
             ))}
 
+          */}
+
+          {!selExtensionName && (
+            <Box css={{ width: '$full' }}>
+              <Flex column css={{ width: '$full', gap: '$md' }}>
+                {walletAvailable.map(wallet => (
+                  <WalletButton
+                    key={wallet.key}
+                    onClick={() => onExtensionSelected(wallet.key)}
+                    label={wallet.label}
+                    icon={wallet.icon}
+                  />
+                ))}
+              </Flex>
+            </Box>
+          )}
           {selExtensionName &&
             (unsupportedNetwork ? (
               <UnsupportedNetwork
