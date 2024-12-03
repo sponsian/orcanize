@@ -17,14 +17,13 @@ import ThemeProvider from './features/theming/ThemeProvider';
 import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
 
-
 import './App.css';
 import { ReefSigner, hooks } from '@reef-chain/react-lib';
 import { getIpfsGatewayUrl } from 'utils/walletHelper';
 import useConnectedWallet from 'hooks/useConnectedWallet';
-import { extension as reefExt } from "@reef-chain/util-lib";
+import { extension as reefExt } from '@reef-chain/util-lib';
 import { useEffect, useState } from 'react';
-import { network as nw } from "@reef-chain/util-lib";
+import { network as nw } from '@reef-chain/util-lib';
 import NetworkSwitch, { setSwitching } from 'context/NetworkSwitch';
 import ReefSignersContext from 'context/ReefSigners';
 
@@ -38,13 +37,12 @@ function App() {
   const { selExtensionName, setSelExtensionName } = useConnectedWallet();
   const [accounts, setAccounts] = useState<ReefSigner[]>([]);
   const [selectedSigner, setSelectedSigner] = useState<ReefSigner | undefined>(
-    undefined,
+    undefined
   );
   const [switchingNetwork, setSwitchingNetwork] = useState<boolean | undefined>(
-    true,
+    true
   );
   const [isNetworkSwitching, setNetworkSwitching] = useState(false);
-
 
   const {
     loading,
@@ -55,7 +53,7 @@ function App() {
     provider,
     reefState,
     extension,
-  } = hooks.useInitReefStateExtension("Orcanize", selExtensionName, {
+  } = hooks.useInitReefStateExtension('Orcanize', selExtensionName, {
     ipfsHashResolverFn: getIpfsGatewayUrl,
   });
   const appAvailableNetworks = [
@@ -68,8 +66,8 @@ function App() {
   };
 
   useEffect(() => {
-    if(error?.code === 1) setSelExtensionName(undefined);
-  }, [error])
+    if (error?.code === 1) setSelExtensionName(undefined);
+  }, [error]);
   useEffect(() => {
     setAccounts([]);
     setSelectedSigner(undefined);
@@ -78,58 +76,47 @@ function App() {
     setAccounts(signers);
     setSelectedSigner(selectedReefSigner);
     reefState.setAccounts(signers);
-    
+
     if (signers?.length && signers?.indexOf(selectedReefSigner!) == -1) {
       reefState.setSelectedAddress(signers[0].address);
     }
-   
   }, [selectedReefSigner, signers]);
 
   const onExtensionSelected = () => {
     setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
-    
-  }
+  };
 
-
-  const switchNetwork = (key: "mainnet" | "testnet") => { 
+  const switchNetwork = (key: 'mainnet' | 'testnet') => {
     setSelExtensionName(undefined);
     setSwitchingNetwork(false);
-    const toSelect = appAvailableNetworks.find((item) => item.name === key);
-    
+    const toSelect = appAvailableNetworks.find(item => item.name === key);
 
     if (toSelect && network.name !== toSelect.name) {
-      
-      
       reefState.setSelectedNetwork(toSelect);
-      
+
       setSwitchingNetwork(true);
       setSelExtensionName(reefExt.REEF_EXTENSION_IDENT);
     }
-  }
-
+  };
 
   return (
     <>
-      
       <RecoilRoot>
         <ErrorBoundary>
-        
           <ToastContainer />
           <QueryClientProvider client={queryClient}>
-          
-          <NetworkSwitch.Provider value={networkSwitch}>
-            <DeprecatedMuiThemeProvider theme={theme}>
-              <ThemeProvider>
-               <BrowserRouter>
-                <AppRoutes />
-               </BrowserRouter>
-                    
-              </ThemeProvider>
-            </DeprecatedMuiThemeProvider>
+            <NetworkSwitch.Provider value={networkSwitch}>
+              <DeprecatedMuiThemeProvider theme={theme}>
+                <ThemeProvider>
+                  <Web3ReactProvider>
+                    <BrowserRouter>
+                      <AppRoutes />
+                    </BrowserRouter>
+                  </Web3ReactProvider>
+                </ThemeProvider>
+              </DeprecatedMuiThemeProvider>
             </NetworkSwitch.Provider>
-            
           </QueryClientProvider>
-          
         </ErrorBoundary>
       </RecoilRoot>
     </>
