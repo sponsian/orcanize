@@ -73,7 +73,7 @@ const makeCoordinapeUser = (circleId: number): QueryUser => {
     id: -1,
     //profile id is used only as a key for coordinape user row in members table
     profile_id: -1,
-    bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
+    bio: "At this time we've chosen to forgo charging fees for Orcanize and instead we're experimenting with funding our DAO through donations. As part of this experiment, Orcanize will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Orcanize in your circle, you can disable it in Circle Settings.",
     circle_id: circleId,
     created_at: new Date().toString(),
     deleted_at: new Date().toString(),
@@ -89,7 +89,7 @@ const makeCoordinapeUser = (circleId: number): QueryUser => {
     updated_at: '',
     profile: {
       id: -1,
-      name: 'Coordinape',
+      name: 'Orcanize',
       address: COORDINAPE_USER_ADDRESS,
       avatar: COORDINAPE_USER_AVATAR,
       skills: '',
@@ -107,12 +107,12 @@ const coordinapeTooltipContent = () => {
       }}
     >
       <Text size="large" css={{ my: '$md' }}>
-        Why is Coordinape in your circle?
+        Why is Orcanize in your circle?
       </Text>
       <p>
         We&apos;re experimenting with the gift circle mechanism as our revenue
-        model. By default, Coordinape appears in your circle and any user can
-        allocate to Coordinape. To show or hide the Coordinape user, use the
+        model. By default, Orcanize appears in your circle and any user can
+        allocate to Orcanize. To show or hide the Orcanize user, use the
         links on the right side of this row.
       </p>
       <Link
@@ -274,7 +274,7 @@ export const MemberRow = ({
   }) => {
     const disabled = !!user.deleted_at;
     const verb = disabled ? 'Enable' : 'Disable';
-    if (!window.confirm(`${verb} Coordinape in this circle?`)) return;
+    if (!window.confirm(`${verb} Orcanize in this circle?`)) return;
 
     try {
       await (disabled

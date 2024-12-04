@@ -184,7 +184,7 @@ export const SplashPage = () => {
                 collect attributes
               </Text>{' '}
               earned through real-world web3 collaboration, starting with Public
-              GIVE, an aggregation score of your experience in Coordinape.
+              GIVE, an aggregation score of your experience in Orcanize.
             </Text>
           </Flex>
           <Box
@@ -216,7 +216,7 @@ export const SplashPage = () => {
             >
               Each month, your CoSoul will{' '}
               <Text h1 display color="cta" css={{ display: 'inline-flex' }}>
-                sync with Coordinape
+                sync with Orcanize
               </Text>{' '}
               data to bring your work history on chain, as public element of
               your future of work persona.

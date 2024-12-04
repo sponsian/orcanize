@@ -5,9 +5,9 @@ export interface Env {
 const replaceThis = `<meta name="placeholder" content="replace_this"/>`;
 
 const deleteThese = [
-	`<meta name="description" content="Coordinape | Decentralizing Compensation"/>`,
-	`<meta property="og:description" content="Coordinape | Decentralizing Compensation">`,
-	`<meta name="twitter:description" content="Coordinape | Decentralizing Compensation">`,
+	`<meta name="description" content="Orcanize | Decentralizing Compensation"/>`,
+	`<meta property="og:description" content="Orcanize | Decentralizing Compensation">`,
+	`<meta name="twitter:description" content="Orcanize | Decentralizing Compensation">`,
 ];
 
 export default {

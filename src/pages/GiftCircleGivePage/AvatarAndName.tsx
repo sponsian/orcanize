@@ -26,7 +26,7 @@ export const AvatarAndName = ({
         css={{ mr: '$sm' }}
       />
       <Text ellipsis>
-        {name === 'Coordinape' && 'Donate to '}
+        {name === 'Orcanize' && 'Donate to '}
         {name}
       </Text>
     </Flex>

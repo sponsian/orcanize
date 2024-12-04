@@ -19,7 +19,7 @@ export const generateMessage = ({
   const message = new SiweMessage({
     domain: window.location.host,
     address,
-    statement: 'Coordinape wants to Sign-In With Ethereum',
+    statement: 'Orcanize wants to Sign-In With Ethereum',
     uri: window.location.origin,
     version: '1',
     chainId,

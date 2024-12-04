@@ -14,8 +14,8 @@ export const MarkdownPreviewStory = Template.bind({});
 
 MarkdownPreviewStory.args = {
   source: `
-  # Coordinape
-  ## Coordinape
+  # Orcanize
+  ## Orcanize
   - Contribution 1
   - Contribution 2
   - Contribution 3 `,

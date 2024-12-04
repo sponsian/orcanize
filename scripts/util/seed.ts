@@ -174,7 +174,7 @@ export async function createProfiles() {
   await adminClient.mutate(
     {
       insert_profiles_one: [
-        { object: { name: 'Coordinape', address: COORDINAPE_USER_ADDRESS } },
+        { object: { name: 'Orcanize', address: COORDINAPE_USER_ADDRESS } },
         { id: true },
       ],
     },

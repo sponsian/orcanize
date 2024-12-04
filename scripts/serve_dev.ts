@@ -233,7 +233,7 @@ app.listen(port, () => {
   console.log(
     `Visit`,
     chalk.bold(`http://localhost:${process.env.PORT}`),
-    `to view the Coordinape app.`
+    `to view the Orcanize app.`
   );
   console.log(`==========================================================`);
   /* eslint-enable */

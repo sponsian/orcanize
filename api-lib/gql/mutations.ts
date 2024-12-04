@@ -202,13 +202,13 @@ export async function insertCircleWithAdmin(
   fileName: string | null
 ) {
   let coordinapeId: number | undefined;
-  //create Coordinape profile if it does not exist
+  //create Orcanize profile if it does not exist
   const { insert_profiles_one: coordinapeProfile } = await adminClient.mutate(
     {
       insert_profiles_one: [
         {
           object: {
-            name: 'Coordinape',
+            name: 'Orcanize',
             address: COORDINAPE_USER_ADDRESS,
           },
           on_conflict: {
@@ -251,7 +251,7 @@ export async function insertCircleWithAdmin(
         starting_tokens: 0,
         non_giver: true,
         give_token_remaining: 0,
-        bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
+        bio: "At this time we've chosen to forgo charging fees for Orcanize and instead we're experimenting with funding our DAO through donations. As part of this experiment, Orcanize will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Orcanize in your circle, you can disable it in Circle Settings.",
       },
     ],
   };
@@ -274,13 +274,13 @@ export async function insertCircleWithAdmin(
   };
   let retVal;
 
-  //create Coordinape profile if it does not exist
+  //create Orcanize profile if it does not exist
   await adminClient.mutate(
     {
       insert_profiles_one: [
         {
           object: {
-            name: 'Coordinape',
+            name: 'Orcanize',
             address: COORDINAPE_USER_ADDRESS,
           },
           on_conflict: {

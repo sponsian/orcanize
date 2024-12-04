@@ -224,9 +224,9 @@ const BurnButton = ({
       <HR />
       <Flex column css={{ gap: '$md' }}>
         <Text size="small" color="alert">
-          Burn your CoSoul to remove your public Coordinape reputation data.
+          Burn your CoSoul to remove your public Orcanize reputation data.
           Burning is irreversible, and will not affect any of your private
-          Coordinape data.
+          Orcanize data.
         </Text>
       </Flex>
       <Button color="destructive" css={{ px: '$md' }} onClick={burn}>

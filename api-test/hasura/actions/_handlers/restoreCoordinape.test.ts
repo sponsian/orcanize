@@ -24,7 +24,7 @@ beforeEach(async () => {
   });
   const coordinapeProfile = await createProfile(adminClient, {
     address: COORDINAPE_USER_ADDRESS,
-    name: 'Coordinape',
+    name: 'Orcanize',
   });
   coordUser = await createUser(adminClient, {
     profile_id: coordinapeProfile.id,
@@ -34,7 +34,7 @@ beforeEach(async () => {
   });
 });
 
-test('restore Coordinape User as an admin', async () => {
+test('restore Orcanize User as an admin', async () => {
   const client = mockUserClient({ profileId: profile.id, address });
   const { restoreCoordinape: result } = await client.mutate(
     {
@@ -55,7 +55,7 @@ test('restore Coordinape User as an admin', async () => {
   expect(coordResult?.deleted_at).toEqual(null);
 });
 
-test('restore Coordinape User as a non admin', async () => {
+test('restore Orcanize User as a non admin', async () => {
   const newAddress = await getUniqueAddress();
   const newProfile = await createProfile(adminClient, {
     address: newAddress,
@@ -96,7 +96,7 @@ test('restore Coordinape User as a non admin', async () => {
   );
 });
 
-test('restore Coordinape User when it is not deleted yet', async () => {
+test('restore Orcanize User when it is not deleted yet', async () => {
   const client = mockUserClient({ profileId: profile.id, address });
   await adminClient.mutate(
     {

@@ -254,7 +254,7 @@ export const HistoryPage = () => {
               <AppLink to={givePaths.profile('me')}>
                 completing your profile
               </AppLink>
-              . To learn more about Coordinape, check out our get started guide.{' '}
+              . To learn more about Orcanize, check out our get started guide.{' '}
               <Link href={EXTERNAL_URL_DISCORD} target="_blank">
                 Join our discord
               </Link>{' '}

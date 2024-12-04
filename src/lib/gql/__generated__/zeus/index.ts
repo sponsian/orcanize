@@ -2271,7 +2271,7 @@ export type ValueTypes = {
     _neq?: ValueTypes['bytea'] | undefined | null;
     _nin?: Array<ValueTypes['bytea']> | undefined | null;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Orcanize's GraphQL API. */
   ['circle_api_keys']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -12759,7 +12759,7 @@ export type ValueTypes = {
   ['profile_skills_variance_order_by']: {
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
+  /** Orcanize user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
     app_emails?: boolean | `@${string}`;
@@ -23293,7 +23293,7 @@ export type ModelTypes = {
   ['bytea']: any;
   /** Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'. */
   ['bytea_comparison_exp']: GraphQLTypes['bytea_comparison_exp'];
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Orcanize's GraphQL API. */
   ['circle_api_keys']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -27232,7 +27232,7 @@ export type ModelTypes = {
   ['profile_skills_var_samp_order_by']: GraphQLTypes['profile_skills_var_samp_order_by'];
   /** order by variance() on columns of table "profile_skills" */
   ['profile_skills_variance_order_by']: GraphQLTypes['profile_skills_variance_order_by'];
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
+  /** Orcanize user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
     app_emails: boolean;
@@ -30803,7 +30803,7 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['bytea'] | undefined;
     _nin?: Array<GraphQLTypes['bytea']> | undefined;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Orcanize's GraphQL API. */
   ['circle_api_keys']: {
     __typename: 'circle_api_keys';
     /** An object relationship */
@@ -39131,7 +39131,7 @@ export type GraphQLTypes = {
   ['profile_skills_variance_order_by']: {
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
+  /** Orcanize user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
     address: string;

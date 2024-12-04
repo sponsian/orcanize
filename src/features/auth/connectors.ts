@@ -61,7 +61,7 @@ export const makeWalletConnectConnector = () => {
 
 const walletlink = new WalletLinkConnector({
   url: OPTIMISM_RPC_URL,
-  appName: 'Coordinape',
+  appName: 'Orcanize',
 });
 
 export const connectors: { [key in EConnectorNames]: AbstractConnector } = {

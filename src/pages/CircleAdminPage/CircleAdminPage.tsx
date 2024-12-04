@@ -288,7 +288,7 @@ export const CircleAdminPageInner = ({
               Circle Settings
             </Text>
             <Text p as="p" size="small">
-              Coordinape circles allow you to collectively reward circle members
+              Orcanize circles allow you to collectively reward circle members
               through equitable and transparent payments.{' '}
               <span>
                 <Link

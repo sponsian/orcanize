@@ -114,7 +114,7 @@ export const CoSoulCreate = ({
             </Text>
           )}
           <Text color="secondary">
-            pGIVE is an abstraction of the GIVE you have received in Coordinape.
+            pGIVE is an abstraction of the GIVE you have received in Orcanize.
           </Text>
           <Text color="secondary">
             pGIVE auto-syncs to your minted CoSoul every month.
