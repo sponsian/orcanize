@@ -64,24 +64,24 @@ export const CoLogoMark = ({
                     forceTheme == 'dark' ||
                     theme == 'party' ||
                     forceTheme == 'party'
-                      ? '/imgs/logo/coordinape-mark-grey6i.png'
-                      : '/imgs/logo/coordinape-mark-grey6.png'
+                      ? '/imgs/logo/orcanize-mark-black.png'
+                      : '/imgs/logo/orcanize-mark-black.png'
                   }
-                  alt="coordinape logo"
+                  alt="orcanize logo"
                 />
               ) : (
                 <img
                   src={
                     muted
-                      ? '/imgs/logo/coordinape-logo-grey6.png'
+                      ? '/imgs/logo/orcanize-logo-black.png'
                       : theme == 'dark' ||
                           forceTheme == 'dark' ||
                           theme == 'party' ||
                           forceTheme == 'party'
-                        ? '/imgs/logo/orcanize-white-on-black.png'
-                        : '/imgs/logo/coordinape-logo-grey7.png'
+                        ? '/imgs/logo/orcanize-logo-white.png'
+                        : '/imgs/logo/orcanize-logo-black.png'
                   }
-                  alt="coordinape logo"
+                  alt="orcanize logo"
                 />
               )}
             </>
