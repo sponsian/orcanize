@@ -56,4 +56,4 @@ compatibility_date = "2023-12-18"
 OG_TAG_API_URL = "https://colinks.costaging.co/api/og/tags"
 
 [env.production.vars]
-OG_TAG_API_URL = "https://colinks.coordinape.com/api/og/tags"
+OG_TAG_API_URL = "https://colinks.orcanize.app/api/og/tags"

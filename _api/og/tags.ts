@@ -12,7 +12,7 @@ import { getPostInfo } from './getPostInfo';
 import { getProfileInfo } from './getProfileInfo';
 
 const appURL = webAppURL('colinks');
-const appImg = 'https://colinks.coordinape.com/imgs/logo/colinks-favicon.png';
+const appImg = 'https://colinks.orcanize.app/imgs/logo/colinks-favicon.png';
 const appDescription = `CoLinks is a network of professionals and friends in the web3 ecosystem`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

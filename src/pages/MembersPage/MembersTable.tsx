@@ -41,7 +41,7 @@ import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from './getMembersPageData';
 import { LeaveCircleModal } from './LeaveCircleModal';
 
 const GIFT_CIRCLE_DOCS_URL =
-  'https://docs.coordinape.com/info/documentation/gift_circle';
+  'https://docs.orcanize.app/info/documentation/gift_circle';
 
 const TD = styled('td', {});
 const TR = styled('tr', {});

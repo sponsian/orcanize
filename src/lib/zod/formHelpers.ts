@@ -75,9 +75,9 @@ const prohibitedWebsites = [
   'x.com',
   'github.com',
   'linkedin.com',
-  'coordinape.com',
-  'www.coordinape.com',
-  'colinks.coordinape.com',
+  'orcanize.app',
+  'www.orcanize.app',
+  'colinks.orcanize.app',
   'colinks.xyz',
   'www.colinks.xyz',
 ];

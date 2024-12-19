@@ -281,7 +281,7 @@ export const NewNominationPage = () => {
               target="_blank"
               rel="noreferrer"
               href={
-                'https://docs.coordinape.com/get-started/members/vouching-new-members'
+                'https://docs.orcanize.app/get-started/members/vouching-new-members'
               }
             >
               Documentation: Learn More About Vouching

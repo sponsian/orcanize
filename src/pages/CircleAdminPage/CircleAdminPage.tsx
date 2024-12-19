@@ -292,7 +292,7 @@ export const CircleAdminPageInner = ({
               through equitable and transparent payments.{' '}
               <span>
                 <Link
-                  href="https://docs.coordinape.com/get-started/admin/update-circle-settings"
+                  href="https://docs.orcanize.app/get-started/admin/update-circle-settings"
                   rel="noreferrer"
                   target="_blank"
                   inlineLink
@@ -514,7 +514,7 @@ export const CircleAdminPageInner = ({
             <Text p as="p" size="small">
               Vouching default text and settings.{' '}
               <Link
-                href="https://docs.coordinape.com/get-started/admin/enable-vouching"
+                href="https://docs.orcanize.app/get-started/admin/enable-vouching"
                 rel="noreferrer"
                 target="_blank"
                 inlineLink

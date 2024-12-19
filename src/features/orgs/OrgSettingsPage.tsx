@@ -216,7 +216,7 @@ export const OrgSettingsPage = () => {
               organizing groups working within the same organization.{' '}
               <span>
                 <Link
-                  href="https://docs.coordinape.com/get-started/admin/update-organization-settings"
+                  href="https://docs.orcanize.app/get-started/admin/update-organization-settings"
                   rel="noreferrer"
                   target="_blank"
                 >

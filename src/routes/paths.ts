@@ -1,37 +1,37 @@
 import type { Location } from 'react-router-dom';
 
-export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
-export const EXTERNAL_URL_BLOG = 'https://coordinape.com/blog';
+export const EXTERNAL_URL_DOCS = 'https://docs.orcanize.app';
+export const EXTERNAL_URL_BLOG = 'https://blog.orcanize.app';
 export const START_A_PARTY_INTENT =
   'https://warpcast.com/~/compose?text=https://give.party/type-a-skill-here';
 export const EXTERNAL_URL_DOCS_GIVE =
-  'https://docs.coordinape.com/colinks/give';
+  'https://docs.orcanize.app/colinks/give';
 export const EXTERNAL_URL_DOCS_COLINKS =
-  'https://docs.coordinape.com/colinks/what-is-colinks';
+  'https://docs.orcanize.app/colinks/what-is-colinks';
 export const EXTERNAL_URL_DOCS_CONTRIBUTIONS =
-  'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions';
+  'https://docs.orcanize.app/get-started/get-started/new-coordinape-admins/record-contributions#contributions';
 export const EXTERNAL_URL_DOCS_INTEGRATIONS =
-  'https://docs.coordinape.com/info/integrations';
-export const EXTERNAL_URL_TOS = 'https://coordinape.com/terms';
+  'https://docs.orcanize.app/info/integrations';
+export const EXTERNAL_URL_TOS = 'https://orcanize.app/terms';
 export const EXTERNAL_URL_DOCS_ORG_MEMBERSHIP =
-  'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/managing-organization-membership';
+  'https://docs.orcanize.app/get-started/get-started/new-coordinape-admins/managing-organization-membership';
 export const EXTERNAL_URL_SCHEDULE_WALKTHROUGH =
-  'https://coordinape.com/schedule-a-walkthrough?utm_medium=helpbutton&utm_campaign=onboarding';
-export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
-export const EXTERNAL_URL_DISCORD = 'https://discord.coordinape.com';
+  'https://orcanize.app/schedule-a-walkthrough?utm_medium=helpbutton&utm_campaign=onboarding';
+export const EXTERNAL_URL_TWITTER = 'https://x.com/orcanizedao';
+export const EXTERNAL_URL_DISCORD = 'https://discord.orcanize.app';
 export const EXTERNAL_URL_GET_STARTED =
-  'https://docs.coordinape.com/get-started/get-started';
+  'https://docs.orcanize.app/get-started/get-started';
 export const EXTERNAL_URL_GET_STARTED_MEMBER =
-  'https://docs.coordinape.com/get-started/get-started/new-coordinape-members';
+  'https://docs.orcanize.app/get-started/get-started/new-coordinape-members';
 export const EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO =
   'https://www.youtube.com/watch?v=j2ixf0Isuuo';
 export const EXTERNAL_URL_DISCORD_SUPPORT =
-  'https://discord.coordinape.com/support';
+  'https://discord.orcanize.app/support';
 export const EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE =
-  'https://coordinape.com/post/why-is-coordinape-in-my-circle?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=coordinapeincircle';
-export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:support@coordinape.com';
+  'https://orcanize.app/post/why-is-coordinape-in-my-circle?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=coordinapeincircle';
+export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:support@orcanize.app';
 export const EXTERNAL_URL_MAILTO_COLINKS_SUPPORT =
-  'mailto:colinks@coordinape.com';
+  'mailto:colinks@orcanize.app';
 export const EXTERNAL_URL_REPORT_ABUSE_FORM =
   'https://docs.google.com/forms/d/e/1FAIpQLScqdAJtxv8eKGQJ35RyWLYOIuwO4NsmLa78rS3jKq6k6dsLNw/viewform?usp=pp_url';
 

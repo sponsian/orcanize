@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               alt="Vercel"
               height={75}
               src={
-                'https://colinks.coordinape.com/imgs/logo/colinks-logo-white.png'
+                'https://colinks.orcanize.app/imgs/logo/colinks-logo-white.png'
               }
             />
           </div>

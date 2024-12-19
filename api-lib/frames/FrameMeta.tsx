@@ -27,7 +27,7 @@ export const RenderFrameMeta = ({
 
   const scriptContent = `
     <script type="text/javascript">
-      window.location.href = "${frame.clickURL ? frame.clickURL : 'https://docs.coordinape.com/colinks/give'}";
+      window.location.href = "${frame.clickURL ? frame.clickURL : 'https://docs.orcanize.app/colinks/give'}";
     </script>
  `;
 

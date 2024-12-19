@@ -696,7 +696,7 @@ const EpochForm = ({
                     value & allocate {'GIVE'} tokens to one another.{' '}
                     <span>
                       <Link
-                        href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
+                        href="https://docs.orcanize.app/get-started/epochs/create-an-epoch"
                         rel="noreferrer"
                         target="_blank"
                         inlineLink

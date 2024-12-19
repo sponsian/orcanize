@@ -9,7 +9,7 @@ import { EmailType, genToken } from './unsubscribe';
 const HELP_URL = 'https://docs.orcanize.app';
 const API_BASE_URL = 'https://api.postmarkapp.com';
 const FROM_EMAIL_GIFT = 'support@orcanize.app';
-const FROM_EMAIL_COLINKS = 'colinks@coordinape.com';
+const FROM_EMAIL_COLINKS = 'colinks@orcanize.app';
 const FROM_NAME_GIFT = 'Orcanize';
 const FROM_NAME_COLINKS = 'CoLinks';
 
