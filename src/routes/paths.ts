@@ -1,7 +1,7 @@
 import type { Location } from 'react-router-dom';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.orcanize.app';
-export const EXTERNAL_URL_BLOG = 'https://blog.orcanize.app';
+export const EXTERNAL_URL_BLOG = 'https://paragraph.xyz/@orcanize';
 export const START_A_PARTY_INTENT =
   'https://warpcast.com/~/compose?text=https://give.party/type-a-skill-here';
 export const EXTERNAL_URL_DOCS_GIVE =
@@ -29,7 +29,7 @@ export const EXTERNAL_URL_DISCORD_SUPPORT =
   'https://discord.orcanize.app/support';
 export const EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE =
   'https://orcanize.app/post/why-is-coordinape-in-my-circle?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=coordinapeincircle';
-export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:support@orcanize.app';
+export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:hello@orcanize.app';
 export const EXTERNAL_URL_MAILTO_COLINKS_SUPPORT =
   'mailto:colinks@orcanize.app';
 export const EXTERNAL_URL_REPORT_ABUSE_FORM =
