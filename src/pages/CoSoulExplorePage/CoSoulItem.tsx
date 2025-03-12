@@ -75,7 +75,7 @@ export const CoSoulItem = ({
                 aspectRatio: '1 / 1',
               }}
               /*This is hardcoded to the prod url ... not sure about this, predates the domain work -g*/
-              src={`https://app.coordinape.com/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png&w=512&q=100`}
+              src={`https://app.orcanize.app/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png&w=512&q=100`}
               alt="CoSoul Screenshot"
             />
           ) : (

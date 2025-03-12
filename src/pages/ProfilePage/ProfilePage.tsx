@@ -225,10 +225,10 @@ const ProfilePageContent = ({
 
                     {user?.role === Role.COORDINAPE ? (
                       <div>
-                        Coordinape is the platform you’re using right now! We
+                        Orcanize is the platform you’re using right now! We
                         currently offer our service for free and invite people
                         to allocate to us from within your circles. All tokens
-                        received go to the Coordinape treasury.{' '}
+                        received go to the Orcanize treasury.{' '}
                         <Link
                           inlineLink
                           href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}

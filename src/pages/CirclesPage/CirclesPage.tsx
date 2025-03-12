@@ -157,7 +157,7 @@ const GetStarted = () => {
     <>
       <HintBanner title={'Get Started'}>
         <Text p as="p" css={{ color: 'inherit' }}>
-          An Organization houses all of your Circles in Coordinape. A Circle is
+          An Organization houses all of your Circles in Orcanize. A Circle is
           equal to a team. Start a Circle, add members, then create an epoch.{' '}
           <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
             Join our Discord

@@ -206,7 +206,7 @@ export const AllocationsTable = ({
             <Link
               inlineLink
               target="_blank"
-              href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
+              href="https://docs.orcanize.app/get-started/compensation/paying-your-team"
             >
               Documentation: Paying Your Team
             </Link>

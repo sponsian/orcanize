@@ -2,7 +2,7 @@ import { gqlQuery, injectWeb3 } from '../util';
 
 let circleId;
 
-context('Coordinape', () => {
+context('Orcanize', () => {
   before(() => {
     Cypress.on('window:before:load', injectWeb3());
     return gqlQuery(

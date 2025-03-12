@@ -259,7 +259,7 @@ export const GiveDrawer = ({
             Leave a Note
           </Text>
           {/*<InfoTooltip>*/}
-          {/*  Want to leave better feedback? Check out Coordinape&apos;s Guide to*/}
+          {/*  Want to leave better feedback? Check out Orcanize&apos;s Guide to*/}
           {/*  Giving Feedback in Web3 */}
           {/*</InfoTooltip>*/}
         </Box>
@@ -348,7 +348,7 @@ export const GiveDrawer = ({
         {member.bio && (
           <Box>
             <Text semibold size="large">
-              {member.profile.name === 'Coordinape'
+              {member.profile.name === 'Orcanize'
                 ? 'Why Give?'
                 : 'Epoch Statement'}
             </Text>

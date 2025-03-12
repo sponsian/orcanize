@@ -11,7 +11,7 @@ export const OrgBanner = ({ orgId }: { orgId: number }) => {
         <AppLink inlineLink to={givePaths.orgMembersAdd(orgId)}>
           Invite your community
         </AppLink>{' '}
-        into Coordinape Organizations! Increase engagement and transparency by
+        into Orcanize Organizations! Increase engagement and transparency by
         granting{' '}
         <AppLink inlineLink to={givePaths.orgMembersAdd(orgId)}>
           Org membership
@@ -38,7 +38,7 @@ export const OrgBanner = ({ orgId }: { orgId: number }) => {
         >
           Check out the docs
         </Link>{' '}
-        for more details, and keep an eye out for more new ways for Coordinape
+        for more details, and keep an eye out for more new ways for Orcanize
         Org members to engage!
       </Text>
       <Flex css={{ gap: '$md' }}>

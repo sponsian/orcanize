@@ -64,7 +64,7 @@ createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
 // createWebhook('OPT_MAINNET - CoSoul Transfer events', options, {
 //   network: 'OPT_MAINNET',
 //   webhook_type: 'GRAPHQL',
-//   webhook_url: 'https://app.coordinape.com/api/webhooks/alchemy_cosoul',
+//   webhook_url: 'https://app.orcanize.app/api/webhooks/alchemy_cosoul',
 //   graphql_query: {
 //     skip_empty_messages: true,
 //     query: `
@@ -128,7 +128,7 @@ createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
 // createWebhook('CoLinks Link Tx events', options, {
 //   network: 'OPT_MAINNET',
 //   webhook_type: 'GRAPHQL',
-//   webhook_url: 'https://colinks.coordinape.com/api/webhooks/alchemy_link_tx',
+//   webhook_url: 'https://colinks.orcanize.app/api/webhooks/alchemy_link_tx',
 //   graphql_query: {
 //     skip_empty_messages: true,
 //     query: `

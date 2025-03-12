@@ -9,7 +9,7 @@ export const OrgBannerOverview = () => {
       dismissible="org-banner-overview"
     >
       <Text p as="p" css={{ color: 'inherit' }}>
-        Invite your community into Coordinape Organizations! Increase engagement
+        Invite your community into Orcanize Organizations! Increase engagement
         and transparency by granting Org membership to your whole DAO/Community,
         without them needing to be in circles. Org members can:
       </Text>
@@ -32,7 +32,7 @@ export const OrgBannerOverview = () => {
         >
           Check out the docs
         </Link>{' '}
-        for more details, and keep an eye out for more new ways for Coordinape
+        for more details, and keep an eye out for more new ways for Orcanize
         Org members to engage!
       </Text>
     </HintBanner>

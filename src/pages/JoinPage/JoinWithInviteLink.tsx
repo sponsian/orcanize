@@ -42,7 +42,7 @@ const JoinCircle = ({
   return (
     <CenteredBox css={{ gap: '$md' }}>
       <Text h2 inline bold color="neutral">
-        Join this circle on Coordinape
+        Join this circle on Orcanize
       </Text>
 
       <Panel nested>
@@ -92,7 +92,7 @@ const JoinOrg = ({
   return (
     <CenteredBox css={{ gap: '$md' }}>
       <Text h2 bold color="neutral">
-        Join this organization on Coordinape
+        Join this organization on Orcanize
       </Text>
       <Panel nested>
         <Flex css={{ flexDirection: 'row', gap: '$md' }}>

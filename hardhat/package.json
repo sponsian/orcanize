@@ -1,6 +1,6 @@
 {
   "name": "@coordinape/hardhat",
-  "description": "Coordinape contracts",
+  "description": "Orcanize contracts",
   "version": "1.0.0",
   "private": true,
   "scripts": {

@@ -463,7 +463,7 @@ export const AddMembersContents = ({
               target="_blank"
               rel="noreferrer"
               href={
-                'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
+                'https://docs.orcanize.app/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
               }
             >
               Documentation: Gift Circle Best Practices

@@ -7,7 +7,7 @@ import { gqlClient, injectWeb3, getMyAddress } from '../util';
 
 let circleId;
 
-context('Coordinape', () => {
+context('Orcanize', () => {
   before(async () => {
     Cypress.on('window:before:load', injectWeb3());
     const address = getMyAddress().toLowerCase();

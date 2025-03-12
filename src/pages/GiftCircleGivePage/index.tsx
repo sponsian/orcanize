@@ -390,7 +390,7 @@ const GivePageInner = ({
   useEffect(() => {
     if (!pendingGiftsFrom) return;
 
-    // set default donation to Coordinape to 1% (rounded down)
+    // set default donation to Orcanize to 1% (rounded down)
     if (pendingGiftsFrom.length === 0) {
       const grantee = allUsers?.find(isUserCoordinape);
       if (grantee)
@@ -432,7 +432,7 @@ const GivePageInner = ({
     <Box css={{ width: '100%' }}>
       <SingleColumnLayout>
         <Helmet>
-          <title>Give - {circle.name} - Coordinape</title>
+          <title>Give - {circle.name} - Orcanize</title>
         </Helmet>
         <ContentHeader>
           <Flex column css={{ gap: '$sm', width: '100%' }}>

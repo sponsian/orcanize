@@ -209,7 +209,7 @@ export const OgPostImage = ({
           <img
             style={{ height: 50 * scale }}
             src={
-              'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey1.png'
+              'https://colinks.orcanize.app/imgs/logo/colinks-logo-grey1.png'
             }
             alt="colinks logo"
           />

@@ -112,7 +112,7 @@ async function getCosoulMetaData(tokenId: number) {
 
   const external_url = `${webAppURL('cosoul')}/cosoul/${coSoulData.address}`;
   const description =
-    'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.\n\n' +
+    'CoSouls contain on-chain contributor statistics in the Orcanize ecosystem.\n\n' +
     (org_names.length > 0
       ? `This CoSoul represents history in the following organizations:\n\n${org_names
           .map(n => `- ${n}\n\n`)

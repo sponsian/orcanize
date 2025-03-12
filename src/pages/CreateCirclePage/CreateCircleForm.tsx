@@ -261,7 +261,7 @@ export const CreateCircleForm = ({
                           <p>
                             Example:
                             <br />
-                            Org Name - Coordinape
+                            Org Name - Orcanize
                             <br />
                             Circle Name - Design Team
                           </p>
@@ -282,7 +282,7 @@ export const CreateCircleForm = ({
                           <p>
                             Example:
                             <br />
-                            Org Name - Coordinape
+                            Org Name - Orcanize
                             <br />
                             Circle Name - Design Team
                           </p>

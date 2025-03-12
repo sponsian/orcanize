@@ -1,4 +1,4 @@
-export const DISCORD_BOT_NAME = 'Caesar The Coordinape Bot';
+export const DISCORD_BOT_NAME = 'Caesar The Orcanize Bot';
 export const DISCORD_BOT_AVATAR_URL =
   'https://coordinape-prod.s3.amazonaws.com/assets/static/20220131-coordinape-pfp-ape.jpg';
 export const DISCORD_BOT_EPOCH_URL =

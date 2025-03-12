@@ -6,7 +6,7 @@ import { errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { IN_PRODUCTION } from '../../../src/config/env';
 
-export const EMAIL_FOR_REPORTS = 'core@coordinape.com';
+export const EMAIL_FOR_REPORTS = 'core@orcanize.app';
 
 async function handler(_: VercelRequest, res: VercelResponse) {
   if (!IN_PRODUCTION) {

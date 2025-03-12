@@ -3389,7 +3389,7 @@ input bytea_comparison_exp {
 }
 
 """
-Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Orcanize's GraphQL API.
 """
 type circle_api_keys {
   """
@@ -44441,7 +44441,7 @@ input profile_skills_variance_order_by {
 }
 
 """
-Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+Orcanize user accounts that can belong to one or many circles via the relationship to the users table
 """
 type profiles {
   address: String!

@@ -154,7 +154,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           as="a"
           color="secondary"
           href={
-            'https://docs.coordinape.com/get-started/compensation/paying-your-team/parcel'
+            'https://docs.orcanize.app/get-started/compensation/paying-your-team/parcel'
           }
         >
           <Flex css={{ mr: '$sm' }}>

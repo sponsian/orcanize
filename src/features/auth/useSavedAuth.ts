@@ -81,7 +81,7 @@ export const useSavedAuth = (): UseSavedAuthReturn => {
 
   // this is needed during login when the most-recent account is not the one
   // we're currently connected to, e.g. the user switched accounts in MetaMask
-  // in between Coordinape sessions. all other cases should use savedAuth
+  // in between Orcanize sessions. all other cases should use savedAuth
   // instead
   const getAndUpdate = (address: string) => {
     address = address.toLowerCase();

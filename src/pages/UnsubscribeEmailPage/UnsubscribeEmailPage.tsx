@@ -74,7 +74,7 @@ export const UnsubscribeEmailPage = () => {
                   >
                     {isCoLinks
                       ? 'Continue to CoLinks'
-                      : 'Continue to Coordinape'}
+                      : 'Continue to Orcanize'}
                   </Button>
                   <Button
                     color="secondary"

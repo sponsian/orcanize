@@ -272,7 +272,7 @@ export const WalletAuthModal = () => {
             size="small"
             css={{ textAlign: 'center', width: '100%' }}
           >
-            By connecting to Coordinape you agree
+            By connecting to Orcanize you agree
             <br />
             to our{' '}
             <Link href={EXTERNAL_URL_TOS} inlineLink>

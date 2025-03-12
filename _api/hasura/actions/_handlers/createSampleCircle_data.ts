@@ -74,7 +74,7 @@ export const sampleMemberData: SampleMemberData[] = [
       `Worked on modal for updating profile picture`,
       `Provided feedback to Beth on the new dev onboarding experience`,
     ],
-    epochStatement: `After getting my dev environment set up I was able to grab several tickets and I hope to be able to continue to do so! Happy to be here for my first Coordinape Epoch!`,
+    epochStatement: `After getting my dev environment set up I was able to grab several tickets and I hope to be able to continue to do so! Happy to be here for my first Orcanize Epoch!`,
     gifts: {
       0: {
         gift: 10,
@@ -152,7 +152,7 @@ export const sampleMemberData: SampleMemberData[] = [
     name: 'Harry the Helper',
     avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-harry.jpg',
     contributions: [
-      `I walked several new users through how to use our app in the #support Channel **The Coordinape Team** has some promising stuff happening!`,
+      `I walked several new users through how to use our app in the #support Channel **The Orcanize Team** has some promising stuff happening!`,
       `Met with the team from **BanklessDAO** to see if we could collaborate on the onboarding quest that Sue was talking about in the all hands`,
       `I found a small bug on the allocation page, created a github issue for it with screenshots and a video explaining it.`,
       `QA for the mobile layout with Francine **AMPED FOR DARK MODE**`,
@@ -210,8 +210,8 @@ export const sampleMemberData: SampleMemberData[] = [
     contributions: [
       `### Updated the testing script for the new contracts`,
       `Gas Golfed our claim contracts, saved 100 gwei`,
-      `Fixed the issues that came back from the audit, they were minor so were prettty quick fixes`,
-      `Working on integrating our app with Coordinape Vaults, their code is so clean 😍`,
+      `Fixed the issues that came back from the audit, they were minor so were pretty quick fixes`,
+      `Working on integrating our app with Orcanize Vaults, their code is so clean 😍`,
       `Submitted new contracts for review to the auditor`,
     ],
     epochStatement: `Spent lots of time prepping the contracts for audit, and fixing their feedback.`,

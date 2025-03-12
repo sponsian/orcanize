@@ -23,11 +23,11 @@ export const DevPortalPage: React.FC = () => {
         </Text>
         <Box css={{ pt: '$md', color: '$text' }}>
           If you would like to access your circle data programmatically, you can
-          use Coordinape&#39;s GraphQL API. Click the button below to visit our
+          use Orcanize&#39;s GraphQL API. Click the button below to visit our
           API Explorer where you will find the GraphQL API endpoint, the
           token/headers you can use to authenticate your request, and a live
           console to construct queries. Note that your auth token will be
-          invalidated upon logout from the Coordinape website.
+          invalidated upon logout from the Orcanize website.
         </Box>
         <Box css={{ pt: '$md', color: '$text', fontStyle: 'italic' }}>
           This API is subject to change as we improve our data model.

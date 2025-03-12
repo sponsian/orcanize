@@ -61,7 +61,7 @@ export const CoSoulProfileInfo = ({
             {cosoul_data.profileInfo.name}
           </Text>
           <Text color="secondary">
-            Coordinape member since {member_since_date}
+            Orcanize member since {member_since_date}
           </Text>
         </Flex>
       </Panel>

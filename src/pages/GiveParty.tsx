@@ -151,11 +151,11 @@ export const GiveParty = () => {
             user.
           </li>
           <li>
-            Party Starters will get Coordinape Rep Points for their parties!
+            Party Starters will get Orcanize Rep Points for their parties!
             Every party gets a little, really big parties get a lot.
           </li>
           <li>
-            GIVE will be sent by Coordinape to create a map of this skill party.
+            GIVE will be sent by Orcanize to create a map of this skill party.
           </li>
           <li>
             <PartyDisplayText text="Party" />

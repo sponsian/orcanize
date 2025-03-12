@@ -93,7 +93,7 @@ export const HelpFrame: Frame = {
     {
       title: 'Learn More',
       action: 'link',
-      target: 'https://docs.coordinape.com/colinks/give',
+      target: 'https://docs.orcanize.app/colinks/give',
     },
     {
       title: 'How 2 Party?',
