@@ -130,13 +130,13 @@ export const NavLogo = ({
                   <img
                     src={
                       muted
-                        ? '/imgs/logo/orcanize-logo-black.png'
+                        ? '/imgs/logo/orcanize-logo-white.png'
                         : theme == 'dark' ||
                             forceTheme == 'dark' ||
                             theme == 'party' ||
                             forceTheme == 'party'
-                          ? '/imgs/logo/orcanize-logo-black.png'
-                          : '/imgs/logo/orcanize-logo-black.png'
+                          ? '/imgs/logo/orcanize-logo-white.png'
+                          : '/imgs/logo/orcanize-logo-white.png'
                     }
                     alt="orcanize logo"
                   />
