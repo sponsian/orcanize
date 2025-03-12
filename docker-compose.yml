@@ -1,44 +1,39 @@
 version: '3.6'
 
 services:
-  postgres:
-    image: ankane/pgvector:latest
-    restart: always
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    ports:
-      - ${LOCAL_POSTGRES_PORT}:5432
-    environment:
-      POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
-
-  # Hasura
   graphql-engine:
-    image: hasura/graphql-engine:v2.31.0.cli-migrations-v3
-    volumes:
-      - ./hasura/migrations:/hasura-migrations
-      - ./hasura/metadata:/hasura-metadata
+    image: hasura/graphql-engine:v2.43.0
     ports:
-      - ${LOCAL_HASURA_PORT:-8080}:8080
-    depends_on:
-      - postgres
+      - '8080:8080'
     restart: always
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres/${LOCAL_POSTGRES_DATABASE}
-      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
-      HASURA_GRAPHQL_DEV_MODE: 'true'
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
-      # Linux (read: non macOS or Windows) users should
-      # `export DOCKER_GATEWAY_HOST=172.17.0.1` to interact with the host machine's ports
-      HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura
-      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura/auth
-      ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      PG_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: '${HASURA_GRAPHQL_ENABLE_CONSOLE}'
+      HASURA_GRAPHQL_DEV_MODE: '${HASURA_GRAPHQL_DEV_MODE}'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: '${HASURA_GRAPHQL_ENABLED_LOG_TYPES}'
+      HASURA_EVENT_SECRET: '${HASURA_EVENT_SECRET}'
+      HASURA_API_BASE_URL: '${HASURA_API_BASE_URL}'
+      HASURA_GRAPHQL_ADMIN_SECRET: '${HASURA_GRAPHQL_ADMIN_SECRET}'
+      HASURA_GRAPHQL_METADATA_DEFAULTS: '${HASURA_GRAPHQL_METADATA_DEFAULTS}'
+    depends_on:
+      data-connector-agent:
+        condition: service_healthy
 
-networks:
-  default:
-    driver: bridge
+  data-connector-agent:
+    image: hasura/graphql-data-connector:v2.43.0
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      QUARKUS_LOG_LEVEL: '${QUARKUS_LOG_LEVEL}'
+      QUARKUS_OPENTELEMETRY_ENABLED: '${QUARKUS_OPENTELEMETRY_ENABLED}'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8081/api/v1/athena/health']
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
 
 volumes:
-  db_data: null
-  db_data_ci: null
+  db_data:
