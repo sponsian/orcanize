@@ -159,12 +159,14 @@ export const WalletAuthModal = () => {
       const appName = 'Orcanize';
       const message = `Please sign the message to complete your connection with ${appName}. Account : ${accountName}`;
       const errorMessage = `To complete the connection with ${appName}, please sign the message.`;
+      console.log({ accountName });
+      fetch('/api/time').then(response => console.log({ response }));
       signRaw({
         address: account.address,
         data: message,
         type: 'payload',
       })
-        .then(result => console.log({ result }))
+        .then(result => {})
         .catch(err =>
           toast.warning(errorMessage, {
             position: toast.POSITION.TOP_RIGHT,
