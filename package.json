@@ -157,7 +157,7 @@
     "react-markdown": "^9.0.1",
     "react-mentions": "^4.4.10",
     "react-query": "^3.39.3",
-    "react-refresh": "^0.14.0",
+    "react-refresh": "^0.17.0",
     "react-router": "6.2.1",
     "react-router-dom": "6.2.1",
     "react-string-replace": "0.4.4",
