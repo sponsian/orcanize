@@ -49,8 +49,8 @@
     "typescript": "4.4.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^4.9.2",
-    "hardhat": "^2.19.4",
+    "@openzeppelin/contracts-upgradeable": "^4.9.6",
+    "hardhat": "^2.23.0",
     "tsx": "^4.7.0"
   },
   "nodeOptions": "--loader ts-node/esm"
