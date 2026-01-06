@@ -98,7 +98,7 @@
     "airtable": "^0.11.4",
     "alchemy-sdk": "^3.0.0",
     "apollo-server-core": "^3.13.0",
-    "apollo-server-express": "3.10.3",
+    "apollo-server-express": "3.13.0",
     "autosize": "^5.0.1",
     "aws-sdk": "^2.1072.0",
     "babel-loader": "^9.1.3",
